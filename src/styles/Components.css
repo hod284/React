@@ -1,0 +1,105 @@
+.metric-card {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #334155;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.metric-card.clickable {
+  cursor: pointer;
+}
+
+.metric-card.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  border-color: #475569;
+}
+
+.metric-card.clickable:hover::before {
+  opacity: 0.5;
+}
+
+.metric-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.metric-value .value {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.metric-value .unit {
+  font-size: 18px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.metric-subtitle {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-action {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #334155;
+  font-size: 13px;
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+.chart-card {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #334155;
+}
+
+.chart-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f3f4f6;
+  margin: 0 0 20px 0;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #374151;
+}
+
+.recharts-text {
+  fill: #9ca3af;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}
