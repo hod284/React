@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Clean install with legacy peer deps
-RUN npm install --legacy-peer-deps
+RUN npm ci
 
 # Copy source code
 COPY . .
