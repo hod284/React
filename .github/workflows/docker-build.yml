@@ -4,6 +4,12 @@ on:
   push:
     branches: [ main ]
 
+  workflow_dispatch:  # 👈 수동 실행 버튼!
+    inputs:
+      tag:
+        description: 'Docker image tag (optional)'
+        required: false
+        default: 'latest'
 env:
   DOCKER_IMAGE_NAME: monitoring-frontend
 
