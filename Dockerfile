@@ -6,10 +6,9 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json* ./
 
-# Clean install with force to resolve all dependencies
+# Install dependencies - force resolution and legacy peer deps
 RUN npm cache clean --force && \
-    rm -rf node_modules package-lock.json && \
-    npm install --legacy-peer-deps --loglevel verbose
+    npm install --legacy-peer-deps --force
 
 # Copy source code
 COPY . .

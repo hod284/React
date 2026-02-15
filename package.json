@@ -6,6 +6,9 @@
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   },
+  "resolutions": {
+    "ajv": "^6.12.6"
+  },
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",
     "@types/node": "^20.10.6",
