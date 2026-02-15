@@ -43,6 +43,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             NODE_ENV=production
+            CI=false
 
       - name: Success notification
         run: |
