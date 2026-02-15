@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json* ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (npm ci 대신 npm install 사용)
+RUN npm install
 
 # Copy source code
 COPY . .

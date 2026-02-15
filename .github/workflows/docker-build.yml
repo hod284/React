@@ -3,13 +3,13 @@ name: Docker Build and Push
 on:
   push:
     branches: [ main ]
-
-  workflow_dispatch:  # 👈 수동 실행 버튼!
+  workflow_dispatch:  # 👈 수동 실행 버튼 추가!
     inputs:
       tag:
         description: 'Docker image tag (optional)'
         required: false
         default: 'latest'
+
 env:
   DOCKER_IMAGE_NAME: monitoring-frontend
 
@@ -38,6 +38,7 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest
             ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:${{ inputs.tag || 'latest' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -45,4 +46,5 @@ jobs:
         run: |
           echo "✅ Docker image successfully built and pushed!"
           echo "Image: ${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}:latest"
+          echo "Custom tag: ${{ inputs.tag || 'latest' }}"
 

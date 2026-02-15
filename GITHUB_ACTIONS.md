@@ -10,8 +10,16 @@ GitHub Repository → Settings → Secrets and variables → Actions
 
 ## 🚀 동작 방식
 
-### 트리거
+### 자동 실행 (Auto Trigger)
 - `main` 브랜치에 push할 때마다 자동 실행
+
+### 수동 실행 (Manual Trigger) 🆕
+1. GitHub Repository → **Actions** 탭
+2. 왼쪽에서 **"Docker Build and Push"** 선택
+3. 오른쪽 **"Run workflow"** 버튼 클릭
+4. 브랜치 선택 (기본: main)
+5. (선택사항) Docker 이미지 태그 입력 (예: `v1.0.0`)
+6. **"Run workflow"** 버튼 클릭
 
 ### 실행 과정
 1. ✅ 코드 체크아웃
@@ -23,6 +31,7 @@ GitHub Repository → Settings → Secrets and variables → Actions
 ### 생성되는 이미지 태그
 - `your-username/monitoring-frontend:latest`
 - `your-username/monitoring-frontend:abc123` (커밋 SHA)
+- `your-username/monitoring-frontend:v1.0.0` (수동 실행 시 입력한 태그)
 
 ## 🔧 이미지 이름 변경
 
