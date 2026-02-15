@@ -1,219 +1,252 @@
-# 서버 모니터링 대시보드 (TypeScript)
+# 모니터링 대시보드 프론트엔드
 
-Spring Boot 백엔드와 WebSocket을 활용한 실시간 서버 모니터링 대시보드입니다.
+Spring Boot 백엔드와 연동되는 실시간 서버 모니터링 React 대시보드입니다.
 
-## 주요 기능
+## 🚀 기술 스택
 
-### 인증 시스템
-- 관리자 회원가입 및 로그인
-- JWT 기반 인증
-- Redis를 통한 Refresh Token 관리
+- **React 18** with TypeScript
+- **React Router v6** - 라우팅
+- **Axios** - HTTP 클라이언트
+- **Recharts** - 실시간 차트
+- **STOMP.js + SockJS** - WebSocket 통신
+- **Docker** - 컨테이너화
+
+## 📋 주요 기능
+
+### 🔐 인증
+- JWT 기반 로그인/회원가입
 - 자동 토큰 갱신
+- 관리자 권한 관리
 
-### 실시간 모니터링
-- WebSocket(STOMP)을 통한 실시간 데이터 수신
-- 2초마다 자동 업데이트
-- CPU, 메모리, 쓰레드 모니터링
+### 📊 실시간 모니터링
+- **CPU 모니터링**: 시스템/프로세스 CPU 사용률
+- **메모리 모니터링**: Heap/Non-Heap 메모리 사용량
+- **쓰레드 모니터링**: 활성/데몬/Peak 쓰레드 수
+- **실시간 차트**: 60개 데이터 포인트 히스토리
 
-### 대시보드 화면
-1. **메인 대시보드**
-   - 전체 시스템 메트릭 요약
-   - CPU, 메모리, 쓰레드 실시간 차트
-   - 시스템 정보 패널
+### 🎨 UI/UX
+- 다크 테마
+- 그라디언트 효과
+- 애니메이션
+- 반응형 디자인
 
-2. **CPU 상세 모니터링**
-   - 시스템 CPU 사용률
-   - 프로세스 CPU 사용률
-   - 60개 데이터 포인트 히스토리
+## 🛠️ 로컬 개발
 
-3. **메모리 상세 모니터링**
-   - 전체 메모리 사용률
-   - Heap/Non-Heap 메모리
-   - 메모리 사용 추이
-
-4. **쓰레드 상세 모니터링**
-   - 활성 쓰레드 수
-   - 데몬 쓰레드 수
-   - Peak 쓰레드 수
-
-## 기술 스택
-
-### Frontend
-- React 18 with TypeScript
-- React Router v6
-- Axios (HTTP 클라이언트)
-- Recharts (차트 라이브러리)
-- STOMP.js + SockJS (WebSocket)
-
-### Backend (기존)
-- Spring Boot
-- Spring Security + JWT
-- Redis
-- WebSocket (STOMP)
-- Micrometer (메트릭)
-
-## 설치 및 실행
-
-### 1. 프로젝트 설치
+### 1. 환경 변수 설정
 ```bash
-cd monitoring-dashboard
+# .env 파일 생성
+cp .env.example .env
+```
+
+`.env` 파일 내용:
+```env
+REACT_APP_API_URL=http://localhost:8080
+REACT_APP_WS_URL=http://localhost:8080
+```
+
+### 2. 의존성 설치
+```bash
 npm install
 ```
 
-### 2. 백엔드 서버 실행
-백엔드 Spring Boot 애플리케이션을 먼저 실행해주세요 (포트 8080).
-
-### 3. 프론트엔드 실행
+### 3. 개발 서버 실행
 ```bash
 npm start
 ```
 
-브라우저에서 http://localhost:3000 으로 접속하세요.
+브라우저에서 http://localhost:3000 접속
 
-## TypeScript 특징
+**중요**: 백엔드 서버가 http://localhost:8080 에서 실행 중이어야 합니다!
 
-### 타입 안정성
-- 모든 컴포넌트와 함수에 타입 지정
-- 인터페이스를 통한 명확한 데이터 구조
-- 컴파일 타임 오류 감지
+## 🐳 Docker로 실행
 
-### 주요 타입 정의
-```typescript
-// src/types/index.ts에 정의된 타입들
-- AuthResponse: 인증 응답 타입
-- User: 사용자 정보 타입
-- MetricsData: 메트릭 데이터 타입
-- ChartDataPoint: 차트 데이터 포인트 타입
+### 이미지 빌드
+```bash
+docker build -t monitoring-frontend .
 ```
 
-### 컴포넌트 Props 타입
-모든 컴포넌트는 명확한 Props 인터페이스를 가집니다:
-- LoginPageProps
-- DashboardPageProps
-- MetricCardProps
-- ChartCardProps
-- DetailLayoutProps
-
-## 백엔드 수정 사항
-
-백엔드 코드에서 다음 부분을 수정해야 합니다:
-
-### 1. UserRepository 수정
-`UserRepositry.java`의 쿼리 수정:
-```java
-@Query("SELECT u FROM User u WHERE u.username = :mid")
-public Optional<User> findbyUserId(@Param("mid") String mid);
+### 컨테이너 실행
+```bash
+docker run -p 3000:80 monitoring-frontend
 ```
 
-### 2. WebSocket CORS 설정
-`WebsoketConfig.java`의 STOMP 엔드포인트:
-```java
-@Override 
-public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/ws-monitoring")
-        .setAllowedOriginPatterns("*")
-        .withSockJS();
-}
+### Docker Compose 사용
+```bash
+docker-compose up -d
 ```
 
-### 3. SecurityConfig 수정
-`LoginSecurity.java`에서 WebSocket 엔드포인트 허용:
-```java
-.requestMatchers("/ws-monitoring/**").permitAll()
+## 📦 프로덕션 빌드
+
+```bash
+npm run build
 ```
 
-## API 엔드포인트
+빌드된 파일은 `build/` 폴더에 생성됩니다.
 
-### 인증 API
+## 🔗 백엔드 연동
+
+### API 엔드포인트
+프론트엔드는 다음 백엔드 API를 호출합니다:
+
 - `POST /api/auth/register` - 회원가입
 - `POST /api/auth/login` - 로그인
 - `POST /api/auth/logout` - 로그아웃
 - `POST /api/auth/refresh` - 토큰 갱신
-
-### 모니터링 API (관리자 전용)
 - `GET /api/monitoring/meterics/cpu` - CPU 메트릭
 - `GET /api/monitoring/metrics/memory` - 메모리 메트릭
 - `GET /api/monitoring/metrics/threads` - 쓰레드 메트릭
-- `GET /api/monitoring/metrics/all` - 전체 메트릭
 
 ### WebSocket
 - 연결: `ws://localhost:8080/ws-monitoring`
 - 구독: `/topic/metrics`
 
-## 프로젝트 구조
+### 백엔드 요구사항
+
+백엔드 서버는 다음을 제공해야 합니다:
+1. Spring Boot REST API (포트 8080)
+2. WebSocket STOMP 엔드포인트
+3. JWT 인증
+4. CORS 설정 (http://localhost:3000 허용)
+
+## 📁 프로젝트 구조
 
 ```
-monitoring-dashboard/
-├── public/
+monitoring-frontend/
+├── public/              # 정적 파일
 │   └── index.html
 ├── src/
-│   ├── components/          # 재사용 가능한 컴포넌트
+│   ├── components/      # 재사용 컴포넌트
 │   │   ├── ChartCard.tsx
 │   │   ├── DetailLayout.tsx
 │   │   └── MetricCard.tsx
-│   ├── pages/              # 페이지 컴포넌트
+│   ├── pages/          # 페이지 컴포넌트
 │   │   ├── LoginPage.tsx
 │   │   ├── RegisterPage.tsx
 │   │   ├── DashboardPage.tsx
 │   │   ├── CPUDetailPage.tsx
 │   │   ├── MemoryDetailPage.tsx
 │   │   └── ThreadDetailPage.tsx
-│   ├── services/           # API 및 WebSocket 서비스
+│   ├── services/       # API & WebSocket
 │   │   ├── api.ts
 │   │   └── websocket.ts
-│   ├── styles/             # CSS 스타일
-│   │   ├── Auth.css
-│   │   ├── Dashboard.css
-│   │   ├── Detail.css
-│   │   └── Components.css
-│   ├── types/              # TypeScript 타입 정의
-│   │   └── index.ts
+│   ├── styles/         # CSS
+│   ├── types/          # TypeScript 타입
 │   ├── App.tsx
-│   ├── index.tsx
-│   └── index.css
+│   └── index.tsx
+├── Dockerfile          # Docker 이미지 정의
+├── docker-compose.yml  # Docker Compose 설정
+├── nginx.conf          # Nginx 설정
 ├── package.json
 ├── tsconfig.json
 └── README.md
 ```
 
-## TypeScript 설정
+## 🌐 GitHub Actions
 
-### tsconfig.json
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true
-  }
+`.github/workflows/docker-build.yml` 파일을 통해 자동 빌드됩니다:
+
+### 트리거
+- `main` 브랜치에 push
+- `develop` 브랜치에 push
+- Pull Request 생성
+
+### 동작
+1. TypeScript 타입 체크
+2. 빌드 테스트
+3. Docker 이미지 빌드
+4. GitHub Container Registry에 푸시
+
+### 생성되는 이미지
+- `ghcr.io/your-username/your-repo:latest` (main 브랜치)
+- `ghcr.io/your-username/your-repo:main-<sha>` (커밋별)
+
+## 🔧 환경 설정
+
+### 로컬 개발 환경
+`.env` 파일:
+```env
+REACT_APP_API_URL=http://localhost:8080
+REACT_APP_WS_URL=http://localhost:8080
+```
+
+### 프로덕션 환경
+`.env.production` 파일:
+```env
+REACT_APP_API_URL=https://api.yourdomain.com
+REACT_APP_WS_URL=https://api.yourdomain.com
+```
+
+### 스테이징 환경
+`.env.staging` 파일:
+```env
+REACT_APP_API_URL=https://staging-api.yourdomain.com
+REACT_APP_WS_URL=https://staging-api.yourdomain.com
+```
+
+### Docker 환경
+Docker 빌드 시 환경 변수 전달:
+```bash
+docker build \
+  --build-arg REACT_APP_API_URL=https://api.yourdomain.com \
+  --build-arg REACT_APP_WS_URL=https://api.yourdomain.com \
+  -t monitoring-frontend .
+```
+
+또는 docker-compose.yml에서:
+```yaml
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        REACT_APP_API_URL: https://api.yourdomain.com
+        REACT_APP_WS_URL: https://api.yourdomain.com
+```
+
+### 환경 변수 우선순위
+1. `.env.local` (git에 커밋하지 않음, 로컬 오버라이드)
+2. `.env.production`, `.env.staging` (환경별)
+3. `.env` (기본값)
+4. 코드의 fallback 값
+
+### Nginx 프록시
+
+`nginx.conf`에서 백엔드 프록시 설정:
+```nginx
+location /api {
+    proxy_pass http://your-backend-host:8080;
 }
 ```
 
-## 트러블슈팅
+## 🐛 트러블슈팅
 
 ### WebSocket 연결 실패
-1. 백엔드 서버가 실행 중인지 확인
-2. CORS 설정 확인
-3. 방화벽 설정 확인
+- 백엔드 서버가 실행 중인지 확인
+- CORS 설정 확인
+- 방화벽 포트 8080 개방 확인
 
-### 로그인 실패
-1. 백엔드 데이터베이스 연결 확인
-2. Redis 서버 실행 확인
-3. 관리자 계정으로 등록했는지 확인
+### API 호출 실패
+- 백엔드 서버 상태 확인: `curl http://localhost:8080/actuator/health`
+- 네트워크 탭에서 요청/응답 확인
+- CORS 에러 확인
 
-### 메트릭 표시 안됨
-1. WebSocket 연결 상태 확인
-2. 백엔드 Actuator 설정 확인
-3. 브라우저 콘솔 로그 확인
+### Docker 빌드 실패
+```bash
+# 캐시 없이 재빌드
+docker build --no-cache -t monitoring-frontend .
 
-### TypeScript 오류
-1. `npm install`로 모든 의존성 설치 확인
-2. `@types` 패키지가 모두 설치되었는지 확인
-3. tsconfig.json 설정 확인
+# 로그 확인
+docker logs <container-id>
+```
 
-## 라이선스
+## 📝 라이선스
+
 MIT
+
+## 🤝 기여
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request

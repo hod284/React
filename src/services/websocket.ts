@@ -7,8 +7,10 @@ class WebSocketService {
   private subscriptions: Map<string, StompSubscription> = new Map();
 
   connect(onConnect?: () => void, onError?: (error: IFrame | Event) => void): void {
+    const wsUrl = process.env.REACT_APP_WS_URL || 'http://localhost:8080';
+    
     this.client = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws-monitoring'),
+      webSocketFactory: () => new SockJS(`${wsUrl}/ws-monitoring`),
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,

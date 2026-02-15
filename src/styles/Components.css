@@ -1,3 +1,274 @@
+/* Enhanced Metric Card Styles */
+.metric-card-enhanced {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid #334155;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity 0.4s;
+}
+
+.metric-card-enhanced.clickable {
+  cursor: pointer;
+}
+
+.metric-card-enhanced.clickable:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--card-color);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px var(--card-color, #3b82f6)40;
+}
+
+.metric-card-enhanced.clickable:hover .metric-card-glow {
+  opacity: 1;
+}
+
+.metric-card-enhanced.clickable:hover .metric-border-gradient {
+  opacity: 1;
+}
+
+.metric-card-enhanced.clickable:hover .sparkle-dot {
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+.metric-border-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.metric-header h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.metric-icon {
+  color: var(--card-color, #60a5fa);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.metric-card-enhanced.clickable:hover .metric-icon {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+.metric-value-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.metric-value {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.metric-value .value {
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 20px currentColor;
+  animation: valueGlow 2s ease-in-out infinite;
+}
+
+@keyframes valueGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px currentColor;
+  }
+  50% {
+    text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+.metric-value .unit {
+  font-size: 20px;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.metric-sparkle {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.sparkle-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+.metric-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  padding: 8px 12px;
+  background: rgba(100, 116, 139, 0.1);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.metric-subtitle svg {
+  opacity: 0.6;
+}
+
+.metric-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #334155;
+  font-size: 13px;
+  color: var(--card-color, #60a5fa);
+  font-weight: 700;
+  transition: all 0.3s;
+  position: relative;
+  z-index: 1;
+}
+
+.metric-card-enhanced.clickable:hover .metric-action {
+  gap: 8px;
+  letter-spacing: 0.5px;
+}
+
+.metric-card-enhanced.clickable:hover .metric-action svg {
+  transform: translateX(4px);
+}
+
+.metric-action svg {
+  transition: transform 0.3s;
+}
+
+/* Enhanced Chart Card Styles */
+.chart-card-enhanced {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid #334155;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.chart-card-enhanced:hover {
+  border-color: #475569;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-card-enhanced h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f3f4f6;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chart-value-display {
+  font-size: 24px;
+  font-weight: 800;
+  text-shadow: 0 0 10px currentColor;
+  animation: chartValuePulse 3s ease-in-out infinite;
+}
+
+@keyframes chartValuePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #334155;
+  stroke-opacity: 0.3;
+}
+
+.recharts-text {
+  fill: #94a3b8;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.recharts-area {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.recharts-line {
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* Original styles for backward compatibility */
 .metric-card {
   background: #1e293b;
   border-radius: 16px;
@@ -34,49 +305,6 @@
   opacity: 0.5;
 }
 
-.metric-header h3 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #94a3b8;
-  margin: 0 0 16px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.metric-value {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.metric-value .value {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.metric-value .unit {
-  font-size: 18px;
-  font-weight: 600;
-  opacity: 0.7;
-}
-
-.metric-subtitle {
-  font-size: 13px;
-  color: #64748b;
-  font-weight: 500;
-}
-
-.metric-action {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #334155;
-  font-size: 13px;
-  color: #60a5fa;
-  font-weight: 600;
-}
-
 .chart-card {
   background: #1e293b;
   border-radius: 16px;
@@ -89,17 +317,4 @@
   font-weight: 600;
   color: #f3f4f6;
   margin: 0 0 20px 0;
-}
-
-.recharts-cartesian-grid-horizontal line,
-.recharts-cartesian-grid-vertical line {
-  stroke: #374151;
-}
-
-.recharts-text {
-  fill: #9ca3af;
-}
-
-.recharts-tooltip-wrapper {
-  outline: none;
 }

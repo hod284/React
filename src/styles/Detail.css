@@ -5,103 +5,200 @@
 }
 
 .detail-header {
-  background: #1e293b;
-  padding: 20px 40px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  padding: 24px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #334155;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899) 1;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 0 40px rgba(59, 130, 246, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.detail-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 .detail-header .header-left {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .detail-header h1 {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 800;
   color: #f3f4f6;
   margin: 0;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .btn-back {
-  padding: 10px 20px;
-  background-color: #334155;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #334155, #1e293b);
   color: #f3f4f6;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid #475569;
+  border-radius: 12px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-back::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(96, 165, 250, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-back:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .btn-back:hover {
-  background-color: #475569;
-  transform: translateX(-2px);
+  background: linear-gradient(135deg, #475569, #334155);
+  transform: translateX(-4px);
+  border-color: #60a5fa;
+  box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
 }
 
 .detail-content {
   padding: 40px;
   max-width: 1600px;
   margin: 0 auto;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .detail-metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
+  gap: 28px;
   margin-bottom: 40px;
 }
 
 .detail-metric-card {
-  background: #1e293b;
-  border-radius: 16px;
-  padding: 24px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 20px;
+  padding: 28px;
   border: 1px solid #334155;
-  transition: all 0.3s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.detail-metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 
 .detail-metric-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 24px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(59, 130, 246, 0.2);
   border-color: #475569;
 }
 
+.detail-metric-card:hover::before {
+  opacity: 0.8;
+}
+
 .metric-label {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   color: #94a3b8;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.2px;
 }
 
 .metric-value-container {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 10px;
 }
 
 .metric-main-value {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 38px;
+  font-weight: 800;
   line-height: 1;
+  text-shadow: 0 0 20px currentColor;
+  animation: valueGlow 2s ease-in-out infinite;
+}
+
+@keyframes valueGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px currentColor;
+  }
+  50% {
+    text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
 }
 
 .metric-unit {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: #94a3b8;
 }
 
 .detail-charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
-  gap: 24px;
+  gap: 28px;
 }
 
 @media (max-width: 1200px) {
