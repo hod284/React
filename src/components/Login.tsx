@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AuthService from '../services/AuthService';
 import type { AuthResponse } from '../types';
+import './Login.css';
 
 interface LoginProps {
   onLoginSuccess: (userData: AuthResponse) => void;
@@ -53,6 +54,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               onChange={(e) => setUsername(e.target.value)}
               required
               placeholder="Enter username"
+              className="form-input"
             />
           </div>
 
@@ -66,6 +68,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="Enter email"
+                  className="form-input"
                 />
               </div>
 
@@ -110,13 +113,14 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Enter password"
+              className="form-input"
             />
           </div>
 
           {error && <div className="error-message">{error}</div>}
 
           <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'Processing...' : isRegister ? 'REGISTER' : 'LOGIN'}
+            {loading ? 'PROCESSING...' : isRegister ? 'REGISTER' : 'LOGIN'}
           </button>
         </form>
 

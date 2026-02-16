@@ -20,7 +20,7 @@
 .login-box h2 {
   text-align: center;
   color: #7c6bb0;
-  margin-bottom: 30px;
+  margin: 0 0 30px 0;
   font-size: 28px;
   font-weight: 700;
 }
@@ -37,10 +37,9 @@
   color: #555;
   font-size: 12px;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
 }
 
-.form-group input {
+.form-input {
   width: 100%;
   padding: 14px 16px;
   font-size: 15px;
@@ -50,23 +49,25 @@
   background: white;
   color: #333;
   box-sizing: border-box;
+  font-family: inherit;
 }
 
-.form-group input::placeholder {
+.form-input::placeholder {
   color: #999;
 }
 
-.form-group input:focus {
+.form-input:focus {
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-/* Role Selector - 라디오 버튼 스타일 */
+/* Role Selector */
 .role-selector {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-top: 8px;
 }
 
 .role-option {
@@ -79,6 +80,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   background: white;
+  user-select: none;
 }
 
 .role-option:hover {
@@ -96,15 +98,16 @@
 .role-radio {
   width: 22px;
   height: 22px;
-  min-width: 22px;  /* ← 추가: 크기 고정 */
-  border: 2px solid #999;  /* ← 수정: 더 진한 회색 (#d0d0d0 → #999) */
+  min-width: 22px;
+  min-height: 22px;
+  border: 2px solid #d0d0d0;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   transition: all 0.3s ease;
-  background: white;  /* ← 추가: 흰색 배경 명시 */
+  position: relative;
 }
 
 .role-option.selected .role-radio {
@@ -123,28 +126,36 @@
 @keyframes radioAppear {
   from {
     transform: scale(0);
+    opacity: 0;
   }
   to {
     transform: scale(1);
+    opacity: 1;
   }
 }
 
 /* Role Content */
 .role-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .role-title {
   font-size: 15px;
   font-weight: 700;
   color: #333;
-  margin-bottom: 4px;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .role-description {
   font-size: 13px;
   color: #777;
   font-weight: 500;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .role-option.selected .role-title {
@@ -166,15 +177,19 @@
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 10px;
+  font-family: inherit;
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .btn-primary:disabled {
@@ -198,6 +213,8 @@
 .toggle-auth {
   text-align: center;
   margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
 }
 
 .btn-link {
@@ -209,6 +226,8 @@
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
+  padding: 0;
+  font-family: inherit;
 }
 
 .btn-link:hover {
@@ -226,7 +245,7 @@
     font-size: 24px;
   }
 
-  .form-group input {
+  .form-input {
     padding: 12px 14px;
     font-size: 14px;
   }
