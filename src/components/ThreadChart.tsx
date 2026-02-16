@@ -9,7 +9,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { ThreadMetrics } from '../types';
+import type { TooltipItem } from 'chart.js';
+import type { ThreadMetrics } from '../types';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -58,7 +59,7 @@ const ThreadChart: React.FC<ThreadChartProps> = ({ data }) => {
       },
       tooltip: {
         callbacks: {
-          label: function (context: any) {
+          label: function (context: TooltipItem<'bar'>) {
             return context.parsed.y + ' threads';
           },
         },
@@ -69,8 +70,8 @@ const ThreadChart: React.FC<ThreadChartProps> = ({ data }) => {
         beginAtZero: true,
         ticks: {
           stepSize: 1,
-          callback: function (value: any) {
-            return Math.floor(value);
+          callback: function (value: string | number) {
+            return typeof value === 'number' ? Math.floor(value) : value;
           },
         },
         title: {

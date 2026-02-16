@@ -1,5 +1,5 @@
 import React from 'react';
-import { SystemInfo as SystemInfoType } from '../types';
+import type { SystemInfo as SystemInfoType } from '../types';
 
 interface SystemInfoProps {
   systemData: SystemInfoType | null;

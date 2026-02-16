@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -11,7 +11,8 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
-import { CpuMetrics } from '../types';
+import type { TooltipItem } from 'chart.js';
+import type { CpuMetrics } from '../types';
 
 ChartJS.register(
   CategoryScale,
@@ -30,30 +31,34 @@ interface CpuChartProps {
 }
 
 const CpuChart: React.FC<CpuChartProps> = ({ data, maxDataPoints = 30 }) => {
-  const chartData = {
-    labels: data.map((_, index) => {
-      const time = new Date(Date.now() - (data.length - index - 1) * 2000);
-      return time.toLocaleTimeString();
-    }),
-    datasets: [
-      {
-        label: 'System CPU (%)',
-        data: data.map((d) => parseFloat(d.system) || 0),
-        borderColor: 'rgb(75, 192, 192)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        tension: 0.4,
-        fill: true,
-      },
-      {
-        label: 'Process CPU (%)',
-        data: data.map((d) => parseFloat(d.process) || 0),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        tension: 0.4,
-        fill: true,
-      },
-    ],
-  };
+  const limitedData = data.slice(-maxDataPoints);
+  
+  const chartData = useMemo(() => {
+    return {
+      labels: limitedData.map((_, index) => {
+        const secondsAgo = (limitedData.length - index - 1) * 2;
+        return secondsAgo === 0 ? 'Now' : `-${secondsAgo}s`;
+      }),
+      datasets: [
+        {
+          label: 'System CPU (%)',
+          data: limitedData.map((d) => parseFloat(d.system) || 0),
+          borderColor: 'rgb(75, 192, 192)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          tension: 0.4,
+          fill: true,
+        },
+        {
+          label: 'Process CPU (%)',
+          data: limitedData.map((d) => parseFloat(d.process) || 0),
+          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          tension: 0.4,
+          fill: true,
+        },
+      ],
+    };
+  }, [limitedData]);
 
   const options = {
     responsive: true,
@@ -76,7 +81,7 @@ const CpuChart: React.FC<CpuChartProps> = ({ data, maxDataPoints = 30 }) => {
       },
       tooltip: {
         callbacks: {
-          label: function (context: any) {
+          label: function (context: TooltipItem<'line'>) {
             let label = context.dataset.label || '';
             if (label) {
               label += ': ';
@@ -94,7 +99,7 @@ const CpuChart: React.FC<CpuChartProps> = ({ data, maxDataPoints = 30 }) => {
         beginAtZero: true,
         max: 100,
         ticks: {
-          callback: function (value: any) {
+          callback: function (value: string | number) {
             return value + '%';
           },
         },

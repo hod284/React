@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthService from '../services/AuthService';
-import { AuthResponse } from '../types';
+import type { AuthResponse } from '../types';
 
 interface LoginProps {
   onLoginSuccess: (userData: AuthResponse) => void;
@@ -30,8 +30,9 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         const response = await AuthService.login(username, password);
         onLoginSuccess(response);
       }
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Authentication failed');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

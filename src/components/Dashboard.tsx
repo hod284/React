@@ -5,7 +5,7 @@ import ThreadChart from './ThreadChart';
 import SystemInfo from './SystemInfo';
 import WebSocketService from '../services/WebSocketService';
 import AuthService from '../services/AuthService';
-import {
+import type {
   CpuMetrics,
   MemoryMetrics,
   ThreadMetrics,
@@ -65,7 +65,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     setConnectionError(null);
   }, []);
 
-  const handleError = useCallback((error: any) => {
+  const handleError = useCallback((error: unknown) => {
     console.error('WebSocket error:', error);
     setConnected(false);
     setConnectionError('Connection error. Attempting to reconnect...');
