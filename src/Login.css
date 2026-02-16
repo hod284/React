@@ -96,13 +96,15 @@
 .role-radio {
   width: 22px;
   height: 22px;
-  border: 2px solid #d0d0d0;
+  min-width: 22px;  /* ← 추가: 크기 고정 */
+  border: 2px solid #999;  /* ← 수정: 더 진한 회색 (#d0d0d0 → #999) */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   transition: all 0.3s ease;
+  background: white;  /* ← 추가: 흰색 배경 명시 */
 }
 
 .role-option.selected .role-radio {
