@@ -1,18 +1,4 @@
-// User and Authentication Types
-export interface User {
-  username: string;
-  role: string;
-}
-
-export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-  expiresIn: number;
-  username: string;
-  role: string;
-}
-
+// Auth related types
 export interface LoginRequest {
   username: string;
   password: string;
@@ -24,11 +10,16 @@ export interface RegisterRequest {
   email: string;
 }
 
-export interface RefreshTokenRequest {
+export interface AuthResponse {
+  accessToken: string;
   refreshToken: string;
+  tokenType: string;
+  expiresIn: number;
+  username: string;
+  role: string;
 }
 
-// Metrics Types
+// Metrics related types
 export interface CpuMetrics {
   system: string;
   process: string;
@@ -39,7 +30,7 @@ export interface CpuMetrics {
 export interface MemoryMetrics {
   used: number;
   max: number;
-  committed: number;
+  committed?: number;
   percentage: number;
   heapUsed?: number;
   nonHeapUsed?: number;

@@ -1,11 +1,9 @@
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 import type { AuthResponse, LoginRequest, RegisterRequest } from '../types';
-
-const API_URL = 'http://localhost:8080/api/auth';
 
 class AuthService {
   async login(username: string, password: string): Promise<AuthResponse> {
-    const response = await axios.post<AuthResponse>(`${API_URL}/login`, {
+    const response = await axiosInstance.post<AuthResponse>('/auth/login', {
       username,
       password,
     } as LoginRequest);
@@ -17,21 +15,14 @@ class AuthService {
   }
 
   async logout(): Promise<void> {
-    const user = this.getCurrentUser();
-    if (user && user.accessToken) {
-      try {
-        await axios.post(
-          `${API_URL}/logout`,
-          {},
-          {
-            headers: { Authorization: `Bearer ${user.accessToken}` },
-          }
-        );
-      } catch (error) {
-        console.error('Logout error:', error);
-      }
+    try {
+      // axiosInstance를 사용하면 자동으로 토큰이 헤더에 추가됨
+      await axiosInstance.post('/auth/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      localStorage.removeItem('user');
     }
-    localStorage.removeItem('user');
   }
 
   async register(
@@ -39,7 +30,7 @@ class AuthService {
     password: string,
     email: string
   ): Promise<AuthResponse> {
-    const response = await axios.post<AuthResponse>(`${API_URL}/register`, {
+    const response = await axiosInstance.post<AuthResponse>('/auth/register', {
       username,
       password,
       email,
@@ -53,14 +44,6 @@ class AuthService {
       return JSON.parse(userStr);
     }
     return null;
-  }
-
-  getAuthHeader(): { Authorization?: string } {
-    const user = this.getCurrentUser();
-    if (user && user.accessToken) {
-      return { Authorization: `Bearer ${user.accessToken}` };
-    }
-    return {};
   }
 
   isAuthenticated(): boolean {

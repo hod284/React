@@ -1,30 +1,23 @@
-import axios from 'axios';
-import AuthService from './AuthService';
-
-const API_URL = 'http://localhost:8080/api/monitoring';
+import axiosInstance from './axiosInstance';
 
 class MonitoringService {
   async getCpuMetrics() {
-    const headers = AuthService.getAuthHeader();
-    const response = await axios.get(`${API_URL}/metrics/cpu`, { headers });
+    const response = await axiosInstance.get('/monitoring/metrics/cpu');
     return response.data;
   }
 
   async getMemoryMetrics() {
-    const headers = AuthService.getAuthHeader();
-    const response = await axios.get(`${API_URL}/metrics/memory`, { headers });
+    const response = await axiosInstance.get('/monitoring/metrics/memory');
     return response.data;
   }
 
   async getThreadMetrics() {
-    const headers = AuthService.getAuthHeader();
-    const response = await axios.get(`${API_URL}/metrics/threads`, { headers });
+    const response = await axiosInstance.get('/monitoring/metrics/threads');
     return response.data;
   }
 
   async getAllMetrics() {
-    const headers = AuthService.getAuthHeader();
-    const response = await axios.get(`${API_URL}/metrics/all`, { headers });
+    const response = await axiosInstance.get('/monitoring/metrics/all');
     return response.data;
   }
 }
