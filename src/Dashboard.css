@@ -1,0 +1,356 @@
+/* Dashboard Wrapper */
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+/* Sidebar Styles - 흰색 배경 + 검은색 텍스트 */
+.sidebar {
+  width: 250px;
+  background: white;  /* ← 흰색 배경 */
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid #e0e0e0;
+}
+
+.sidebar-header {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.sidebar-header h3 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;  /* ← 검은색 */
+}
+
+.sidebar-header p {
+  margin: 0;
+  font-size: 13px;
+  color: #555;  /* ← 진한 회색 */
+  font-weight: 500;
+}
+
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #f8f9fa;  /* ← 밝은 회색 배경 */
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;  /* ← 검은색 텍스트 */
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-btn:hover:not(:disabled) {
+  background: #e9ecef;
+  transform: translateX(3px);
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.sidebar-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sidebar-btn .btn-icon {
+  font-size: 20px;
+}
+
+.sidebar-btn .btn-text {
+  flex: 1;
+  color: #1a1a1a;  /* ← 검은색 */
+  font-weight: 600;
+}
+
+/* Active 상태 */
+.sidebar-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.sidebar-btn.active .btn-text {
+  color: white;  /* ← active일 때만 흰색 */
+}
+
+/* 버튼별 색상 (hover 시) */
+.sidebar-btn.overview:hover:not(:disabled) {
+  border-color: #667eea;
+}
+
+.sidebar-btn.cpu:hover:not(:disabled) {
+  border-color: rgb(75, 192, 192);
+}
+
+.sidebar-btn.memory:hover:not(:disabled) {
+  border-color: rgb(153, 102, 255);
+}
+
+.sidebar-btn.thread:hover:not(:disabled) {
+  border-color: rgb(255, 99, 132);
+}
+
+.sidebar-btn.cpu-fetch:hover:not(:disabled),
+.sidebar-btn.memory-fetch:hover:not(:disabled),
+.sidebar-btn.thread-fetch:hover:not(:disabled) {
+  border-color: #ffc107;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 20px 0;
+}
+
+/* Main Dashboard */
+.dashboard {
+  margin-left: 250px;
+  flex: 1;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+.dashboard-header {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 10px 0;
+  color: #1a1a1a;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.connection-status {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.status-indicator {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.status-indicator.connected {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-indicator.disconnected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.last-update {
+  color: #666;
+  font-weight: 500;
+}
+
+.header-right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.user-info {
+  color: #555;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.btn-logout {
+  padding: 10px 20px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-logout:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chart-container {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  height: 100%;
+}
+
+/* Metrics Summary */
+.metrics-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.summary-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.summary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.summary-card h4 {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-card .metric-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 5px;
+}
+
+.summary-card .metric-label {
+  font-size: 13px;
+  color: #888;
+}
+
+/* Alert */
+.alert {
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  color: #856404;
+  border-left: 4px solid #ffc107;
+}
+
+/* System Info */
+.system-info {
+  padding: 20px;
+}
+
+.system-info h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+}
+
+.info-value {
+  font-weight: 700;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  
+  .dashboard {
+    margin-left: 200px;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
+  
+  .dashboard {
+    margin-left: 0;
+  }
+}
