@@ -16,7 +16,7 @@ import type {
   SystemInfo as SystemInfoType,
   MetricsData,
 } from '../types';
-
+import '../Dashboard.css';
 interface DashboardProps {
   onLogout: () => void;
 }

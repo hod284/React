@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AuthService from '../services/AuthService';
 import type { AuthResponse } from '../types';
-import './Login.css';
+import '../Login.css';
 
 interface LoginProps {
   onLoginSuccess: (userData: AuthResponse) => void;
