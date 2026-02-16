@@ -1,252 +1,312 @@
-# 모니터링 대시보드 프론트엔드
+# System Monitoring Dashboard (Vite + TypeScript + React)
 
-Spring Boot 백엔드와 연동되는 실시간 서버 모니터링 React 대시보드입니다.
+실시간 시스템 모니터링 대시보드 - Spring Boot 백엔드와 React 프론트엔드를 사용한 실시간 CPU, 메모리, 스레드 모니터링 시스템
 
-## 🚀 기술 스택
+## 📋 목차
 
-- **React 18** with TypeScript
-- **React Router v6** - 라우팅
-- **Axios** - HTTP 클라이언트
-- **Recharts** - 실시간 차트
-- **STOMP.js + SockJS** - WebSocket 통신
-- **Docker** - 컨테이너화
+- [주요 기능](#주요-기능)
+- [기술 스택](#기술-스택)
+- [프로젝트 구조](#프로젝트-구조)
+- [설치 및 실행](#설치-및-실행)
+- [환경 설정](#환경-설정)
+- [API 엔드포인트](#api-엔드포인트)
+- [사용 방법](#사용-방법)
 
-## 📋 주요 기능
+## 🎯 주요 기능
 
-### 🔐 인증
-- JWT 기반 로그인/회원가입
-- 자동 토큰 갱신
-- 관리자 권한 관리
+### 백엔드 (Spring Boot)
+- ✅ JWT 기반 인증/인가
+- ✅ Redis를 사용한 세션 관리
+- ✅ WebSocket (STOMP) 실시간 데이터 전송
+- ✅ Micrometer를 통한 메트릭 수집
+- ✅ 2초마다 자동 메트릭 브로드캐스트
 
-### 📊 실시간 모니터링
-- **CPU 모니터링**: 시스템/프로세스 CPU 사용률
-- **메모리 모니터링**: Heap/Non-Heap 메모리 사용량
-- **쓰레드 모니터링**: 활성/데몬/Peak 쓰레드 수
-- **실시간 차트**: 60개 데이터 포인트 히스토리
+### 프론트엔드 (React + TypeScript)
+- ✅ 실시간 차트 (Chart.js)
+- ✅ WebSocket 자동 재연결
+- ✅ JWT 토큰 기반 인증
+- ✅ 반응형 대시보드 디자인
+- ✅ CPU, 메모리, 스레드 실시간 모니터링
+- ✅ TypeScript로 타입 안정성 확보
 
-### 🎨 UI/UX
-- 다크 테마
-- 그라디언트 효과
-- 애니메이션
-- 반응형 디자인
+## 🛠 기술 스택
 
-## 🛠️ 로컬 개발
+### Frontend
+- **Framework**: React 19.2 + TypeScript 5.9
+- **Build Tool**: Vite 7.3
+- **Charts**: Chart.js 4.4 + react-chartjs-2
+- **WebSocket**: STOMP.js + SockJS
+- **HTTP Client**: Axios
+- **Styling**: Pure CSS
 
-### 1. 환경 변수 설정
-```bash
-# .env 파일 생성
-cp .env.example .env
-```
-
-`.env` 파일 내용:
-```env
-REACT_APP_API_URL=http://localhost:8080
-REACT_APP_WS_URL=http://localhost:8080
-```
-
-### 2. 의존성 설치
-```bash
-npm install
-```
-
-### 3. 개발 서버 실행
-```bash
-npm start
-```
-
-브라우저에서 http://localhost:3000 접속
-
-**중요**: 백엔드 서버가 http://localhost:8080 에서 실행 중이어야 합니다!
-
-## 🐳 Docker로 실행
-
-### 이미지 빌드
-```bash
-docker build -t monitoring-frontend .
-```
-
-### 컨테이너 실행
-```bash
-docker run -p 3000:80 monitoring-frontend
-```
-
-### Docker Compose 사용
-```bash
-docker-compose up -d
-```
-
-## 📦 프로덕션 빌드
-
-```bash
-npm run build
-```
-
-빌드된 파일은 `build/` 폴더에 생성됩니다.
-
-## 🔗 백엔드 연동
-
-### API 엔드포인트
-프론트엔드는 다음 백엔드 API를 호출합니다:
-
-- `POST /api/auth/register` - 회원가입
-- `POST /api/auth/login` - 로그인
-- `POST /api/auth/logout` - 로그아웃
-- `POST /api/auth/refresh` - 토큰 갱신
-- `GET /api/monitoring/meterics/cpu` - CPU 메트릭
-- `GET /api/monitoring/metrics/memory` - 메모리 메트릭
-- `GET /api/monitoring/metrics/threads` - 쓰레드 메트릭
-
-### WebSocket
-- 연결: `ws://localhost:8080/ws-monitoring`
-- 구독: `/topic/metrics`
-
-### 백엔드 요구사항
-
-백엔드 서버는 다음을 제공해야 합니다:
-1. Spring Boot REST API (포트 8080)
-2. WebSocket STOMP 엔드포인트
-3. JWT 인증
-4. CORS 설정 (http://localhost:3000 허용)
+### Backend
+- Spring Boot 3.x
+- Spring Security + JWT
+- Spring WebSocket (STOMP)
+- Redis
+- Micrometer
+- JPA/Hibernate
 
 ## 📁 프로젝트 구조
 
 ```
 monitoring-frontend/
-├── public/              # 정적 파일
-│   └── index.html
+├── public/
+│   └── vite.svg
 ├── src/
-│   ├── components/      # 재사용 컴포넌트
-│   │   ├── ChartCard.tsx
-│   │   ├── DetailLayout.tsx
-│   │   └── MetricCard.tsx
-│   ├── pages/          # 페이지 컴포넌트
-│   │   ├── LoginPage.tsx
-│   │   ├── RegisterPage.tsx
-│   │   ├── DashboardPage.tsx
-│   │   ├── CPUDetailPage.tsx
-│   │   ├── MemoryDetailPage.tsx
-│   │   └── ThreadDetailPage.tsx
-│   ├── services/       # API & WebSocket
-│   │   ├── api.ts
-│   │   └── websocket.ts
-│   ├── styles/         # CSS
-│   ├── types/          # TypeScript 타입
-│   ├── App.tsx
-│   └── index.tsx
-├── Dockerfile          # Docker 이미지 정의
-├── docker-compose.yml  # Docker Compose 설정
-├── nginx.conf          # Nginx 설정
+│   ├── components/
+│   │   ├── CpuChart.tsx           # CPU 차트 컴포넌트
+│   │   ├── MemoryChart.tsx        # 메모리 차트 컴포넌트
+│   │   ├── ThreadChart.tsx        # 스레드 차트 컴포넌트
+│   │   ├── SystemInfo.tsx         # 시스템 정보 컴포넌트
+│   │   ├── Dashboard.tsx          # 메인 대시보드
+│   │   └── Login.tsx              # 로그인/회원가입
+│   ├── services/
+│   │   ├── WebSocketService.ts    # WebSocket 연결 관리
+│   │   └── AuthService.ts         # 인증 관리 (JWT)
+│   ├── types.ts                   # TypeScript 타입 정의
+│   ├── App.tsx                    # 메인 앱 컴포넌트
+│   ├── App.css                    # 앱 스타일
+│   ├── main.tsx                   # 앱 엔트리 포인트
+│   ├── index.css                  # 글로벌 스타일
+│   └── vite-env.d.ts             # Vite 타입 정의
+├── index.html
 ├── package.json
 ├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── vite.config.ts
+├── Dockerfile
+├── docker-compose.yml
 └── README.md
 ```
 
-## 🌐 GitHub Actions
+## 🚀 설치 및 실행
 
-`.github/workflows/docker-build.yml` 파일을 통해 자동 빌드됩니다:
+### 1. 로컬 개발 환경
 
-### 트리거
-- `main` 브랜치에 push
-- `develop` 브랜치에 push
-- Pull Request 생성
+#### 사전 요구사항
+- Node.js 18 이상
+- npm 또는 yarn
+- 백엔드 서버 실행 중 (포트 8080)
 
-### 동작
-1. TypeScript 타입 체크
-2. 빌드 테스트
-3. Docker 이미지 빌드
-4. GitHub Container Registry에 푸시
+#### 설치 및 실행
 
-### 생성되는 이미지
-- `ghcr.io/your-username/your-repo:latest` (main 브랜치)
-- `ghcr.io/your-username/your-repo:main-<sha>` (커밋별)
-
-## 🔧 환경 설정
-
-### 로컬 개발 환경
-`.env` 파일:
-```env
-REACT_APP_API_URL=http://localhost:8080
-REACT_APP_WS_URL=http://localhost:8080
-```
-
-### 프로덕션 환경
-`.env.production` 파일:
-```env
-REACT_APP_API_URL=https://api.yourdomain.com
-REACT_APP_WS_URL=https://api.yourdomain.com
-```
-
-### 스테이징 환경
-`.env.staging` 파일:
-```env
-REACT_APP_API_URL=https://staging-api.yourdomain.com
-REACT_APP_WS_URL=https://staging-api.yourdomain.com
-```
-
-### Docker 환경
-Docker 빌드 시 환경 변수 전달:
 ```bash
-docker build \
-  --build-arg REACT_APP_API_URL=https://api.yourdomain.com \
-  --build-arg REACT_APP_WS_URL=https://api.yourdomain.com \
-  -t monitoring-frontend .
+# 의존성 설치
+npm install
+
+# 개발 서버 실행 (포트 5173)
+npm run dev
+
+# 프로덕션 빌드
+npm run build
+
+# 빌드 미리보기
+npm run preview
+
+# 린트 검사
+npm run lint
 ```
 
-또는 docker-compose.yml에서:
-```yaml
-services:
-  frontend:
-    build:
-      context: .
-      args:
-        REACT_APP_API_URL: https://api.yourdomain.com
-        REACT_APP_WS_URL: https://api.yourdomain.com
+애플리케이션이 다음 주소에서 실행됩니다:
+- 프론트엔드: http://localhost:5173
+- 백엔드: http://localhost:8080
+
+### 2. Docker로 실행
+
+```bash
+# 이미지 빌드 및 컨테이너 실행
+docker-compose up --build
+
+# 백그라운드 실행
+docker-compose up -d
+
+# 로그 확인
+docker-compose logs -f frontend
+
+# 중지
+docker-compose down
 ```
 
-### 환경 변수 우선순위
-1. `.env.local` (git에 커밋하지 않음, 로컬 오버라이드)
-2. `.env.production`, `.env.staging` (환경별)
-3. `.env` (기본값)
-4. 코드의 fallback 값
+Docker 실행 시 포트:
+- 프론트엔드: http://localhost:3000
 
-### Nginx 프록시
+## ⚙️ 환경 설정
 
-`nginx.conf`에서 백엔드 프록시 설정:
-```nginx
-location /api {
-    proxy_pass http://your-backend-host:8080;
+### 환경 변수 설정
+
+`.env.example` 파일을 복사하여 `.env` 파일을 생성하세요:
+
+```bash
+cp .env.example .env
+```
+
+### .env 파일 내용
+
+```env
+# Backend API URL
+VITE_API_URL=http://localhost:8080
+
+# WebSocket URL
+VITE_WS_URL=http://localhost:8080/ws-monitoring
+```
+
+**참고**: Vite에서는 환경 변수 앞에 `VITE_` 접두사가 필요합니다.
+
+## 📡 API 엔드포인트
+
+### 인증 API
+```
+POST /api/auth/register    # 회원가입
+POST /api/auth/login       # 로그인
+POST /api/auth/logout      # 로그아웃
+POST /api/auth/refresh     # 토큰 갱신
+```
+
+### 모니터링 API (ADMIN만 접근 가능)
+```
+GET /api/monitoring/meterics/cpu      # CPU 메트릭
+GET /api/monitoring/metrics/memory    # 메모리 메트릭
+GET /api/monitoring/metrics/threads   # 스레드 메트릭
+GET /api/monitoring/metrics/all       # 모든 메트릭
+```
+
+### WebSocket
+```
+연결: ws://localhost:8080/ws-monitoring
+구독: /topic/metrics
+주기: 2초마다 자동 전송
+```
+
+## 💡 사용 방법
+
+### 1. 회원가입 및 로그인
+
+1. 애플리케이션 접속
+2. "Register" 버튼 클릭
+3. Username, Email, Password 입력
+4. 회원가입 완료 후 로그인
+
+### 2. 대시보드 사용
+
+로그인 후 자동으로 다음 기능이 활성화됩니다:
+
+- **WebSocket 자동 연결**: 백엔드와 실시간 연결
+- **2초마다 메트릭 업데이트**: 자동으로 최신 데이터 수신
+- **4개의 차트**:
+  - CPU 사용량 (시스템/프로세스)
+  - 메모리 사용량 (MB/퍼센트)
+  - JVM 스레드 통계
+  - 시스템 정보
+
+### 3. 주요 지표 설명
+
+- **CPU**: 
+  - System CPU: 전체 시스템 CPU 사용률
+  - Process CPU: 현재 프로세스 CPU 사용률
+  
+- **Memory**: 
+  - Used: 현재 사용 중인 메모리 (MB)
+  - Max: 최대 사용 가능 메모리 (MB)
+  - Percentage: 메모리 사용률 (%)
+
+- **Threads**: 
+  - Live: 활성 스레드 수
+  - Daemon: 데몬 스레드 수
+  - Peak: 최대 스레드 수
+
+- **System**: 
+  - OS 정보, 프로세서 수, JVM 메모리 상태
+
+## 🔧 TypeScript 설정
+
+프로젝트는 엄격한 TypeScript 설정을 사용합니다:
+
+```json
+{
+  "strict": true,
+  "noUnusedLocals": true,
+  "noUnusedParameters": true,
+  "noFallthroughCasesInSwitch": true
+}
+```
+
+## 📦 주요 의존성
+
+### Production Dependencies
+```json
+{
+  "react": "^19.2.0",
+  "react-dom": "^19.2.0",
+  "@stomp/stompjs": "^7.0.0",
+  "sockjs-client": "^1.6.1",
+  "axios": "^1.6.0",
+  "chart.js": "^4.4.0",
+  "react-chartjs-2": "^5.2.0"
+}
+```
+
+### Development Dependencies
+```json
+{
+  "typescript": "~5.9.3",
+  "vite": "^7.3.1",
+  "@vitejs/plugin-react": "^5.1.1",
+  "@types/react": "^19.2.7",
+  "@types/sockjs-client": "^1.5.4"
 }
 ```
 
 ## 🐛 트러블슈팅
 
 ### WebSocket 연결 실패
-- 백엔드 서버가 실행 중인지 확인
-- CORS 설정 확인
-- 방화벽 포트 8080 개방 확인
+1. 백엔드 서버가 실행 중인지 확인
+2. 백엔드의 CORS 설정 확인
+3. 브라우저 콘솔에서 에러 메시지 확인
+4. WebSocket URL이 올바른지 확인 (.env 파일)
 
-### API 호출 실패
-- 백엔드 서버 상태 확인: `curl http://localhost:8080/actuator/health`
-- 네트워크 탭에서 요청/응답 확인
-- CORS 에러 확인
+### 인증 문제
+1. JWT 토큰 만료 확인 (localStorage)
+2. Authorization 헤더 형식 확인 ("Bearer {token}")
+3. 브라우저 개발자 도구 Network 탭 확인
 
-### Docker 빌드 실패
+### 차트가 표시되지 않음
+1. WebSocket 연결 상태 확인 (대시보드 상단)
+2. 백엔드에서 메트릭이 전송되는지 로그 확인
+3. 브라우저 콘솔에서 에러 확인
+
+### 빌드 오류
 ```bash
-# 캐시 없이 재빌드
-docker build --no-cache -t monitoring-frontend .
+# node_modules 삭제 후 재설치
+rm -rf node_modules package-lock.json
+npm install
 
-# 로그 확인
-docker logs <container-id>
+# TypeScript 캐시 삭제
+rm -rf node_modules/.tmp
+npm run build
 ```
+
+## 🔒 보안 고려사항
+
+- JWT Secret은 환경 변수로 관리
+- HTTPS 사용 권장 (프로덕션)
+- CORS 정책 적절히 설정
+- XSS 방지를 위한 입력 검증
+- Rate Limiting 적용 고려
+
+## 📈 성능 최적화
+
+1. **차트 데이터 제한**: 최근 30개 포인트만 유지
+2. **메모이제이션**: useCallback으로 불필요한 리렌더링 방지
+3. **Vite 빌드**: 빠른 개발 서버와 최적화된 프로덕션 빌드
+4. **코드 스플리팅**: Vite의 자동 코드 스플리팅
+5. **타입 체크**: TypeScript로 런타임 에러 최소화
 
 ## 📝 라이선스
 
-MIT
+MIT License
 
 ## 🤝 기여
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+이슈 및 PR은 언제든 환영합니다!
