@@ -22,7 +22,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
     try {
       if (isRegister) {
-        // 회원가입 시 role도 함께 전송 (백엔드 수정 필요)
         await AuthService.register(username, password, email, role);
         setIsRegister(false);
         setError('Registration successful! Please login.');
@@ -47,7 +46,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         <h2>{isRegister ? 'Register' : 'Login'}</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Username</label>
+            <label>USERNAME</label>
             <input
               type="text"
               value={username}
@@ -60,7 +59,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           {isRegister && (
             <>
               <div className="form-group">
-                <label>Email</label>
+                <label>EMAIL</label>
                 <input
                   type="email"
                   value={email}
@@ -71,26 +70,40 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               </div>
 
               <div className="form-group">
-                <label>Role</label>
-                <select 
-                  value={role} 
-                  onChange={(e) => setRole(e.target.value as 'USER' | 'ADMIN')}
-                  className="role-select"
-                >
-                  <option value="USER">User</option>
-                  <option value="ADMIN">Admin</option>
-                </select>
-                <p className="role-hint">
-                  {role === 'ADMIN' 
-                    ? '⚠️ Admin can access all monitoring metrics' 
-                    : 'ℹ️ User has limited access'}
-                </p>
+                <label>ROLE</label>
+                <div className="role-selector">
+                  <div 
+                    className={`role-option ${role === 'USER' ? 'selected' : ''}`}
+                    onClick={() => setRole('USER')}
+                  >
+                    <div className="role-radio">
+                      {role === 'USER' && <div className="role-radio-dot"></div>}
+                    </div>
+                    <div className="role-content">
+                      <div className="role-title">User</div>
+                      <div className="role-description">Limited access</div>
+                    </div>
+                  </div>
+                  
+                  <div 
+                    className={`role-option ${role === 'ADMIN' ? 'selected' : ''}`}
+                    onClick={() => setRole('ADMIN')}
+                  >
+                    <div className="role-radio">
+                      {role === 'ADMIN' && <div className="role-radio-dot"></div>}
+                    </div>
+                    <div className="role-content">
+                      <div className="role-title">Admin</div>
+                      <div className="role-description">Full access to monitoring</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </>
           )}
 
           <div className="form-group">
-            <label>Password</label>
+            <label>PASSWORD</label>
             <input
               type="password"
               value={password}
@@ -103,7 +116,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           {error && <div className="error-message">{error}</div>}
 
           <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'Processing...' : isRegister ? 'Register' : 'Login'}
+            {loading ? 'Processing...' : isRegister ? 'REGISTER' : 'LOGIN'}
           </button>
         </form>
 
