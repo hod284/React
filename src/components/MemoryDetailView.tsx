@@ -1,7 +1,32 @@
 import React from 'react';
 import { Line, Doughnut } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,  // ← 추가!
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from 'chart.js';
 import type { MemoryMetrics, SystemInfo } from '../types';
 import type { TooltipItem, ChartOptions } from 'chart.js';
+
+// ← ArcElement 등록!
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,  // ← 추가!
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 interface MemoryDetailViewProps {
   data: MemoryMetrics[];
@@ -209,7 +234,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
         callbacks: {
           label: function (context: TooltipItem<'doughnut'>) {
             const label = context.label || '';
-            const value = context.parsed as number || 0;
+            const value = context.parsed || 0;
             return `${label}: ${value.toFixed(2)} MB`;
           },
         },
