@@ -6,7 +6,7 @@ const API_URL = 'http://localhost:8080/api/monitoring';
 class MonitoringService {
   async getCpuMetrics() {
     const headers = AuthService.getAuthHeader();
-    const response = await axios.get(`${API_URL}/meterics/cpu`, { headers });
+    const response = await axios.get(`${API_URL}/metrics/cpu`, { headers });
     return response.data;
   }
 
