@@ -1,17 +1,20 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { MemoryMetrics } from '../types';
+import type { MemoryMetrics } from '../types';
+import type { TooltipItem, ChartOptions } from 'chart.js';
 
 interface MemoryChartProps {
   data: MemoryMetrics[];
-  maxDataPoints?: number;
 }
 
-const MemoryChart: React.FC<MemoryChartProps> = ({ data, maxDataPoints = 30 }) => {
+const MemoryChart: React.FC<MemoryChartProps> = ({ data }) => {
   const chartData = {
-    labels: data.map((_, index) => {
-      const time = new Date(Date.now() - (data.length - index - 1) * 2000);
-      return time.toLocaleTimeString();
+    labels: data.map((item) => {
+      if (item.timestamp) {
+        const time = new Date(item.timestamp);
+        return time.toLocaleTimeString();
+      }
+      return '';
     }),
     datasets: [
       {
@@ -35,7 +38,7 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data, maxDataPoints = 30 }) =
     ],
   };
 
-  const options = {
+  const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     interaction: {
@@ -56,7 +59,7 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data, maxDataPoints = 30 }) =
       },
       tooltip: {
         callbacks: {
-          label: function (context: any) {
+          label: function (context: TooltipItem<'line'>) {
             let label = context.dataset.label || '';
             if (label) {
               label += ': ';
@@ -83,8 +86,8 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data, maxDataPoints = 30 }) =
           text: 'Memory (MB)',
         },
         ticks: {
-          callback: function (value: any) {
-            return value.toFixed(0) + ' MB';
+          callback: function (value: string | number) {
+            return typeof value === 'number' ? value.toFixed(0) + ' MB' : value;
           },
         },
       },
@@ -101,8 +104,8 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data, maxDataPoints = 30 }) =
           drawOnChartArea: false,
         },
         ticks: {
-          callback: function (value: any) {
-            return value + '%';
+          callback: function (value: string | number) {
+            return typeof value === 'number' ? value + '%' : value;
           },
         },
       },

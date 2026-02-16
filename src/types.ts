@@ -33,6 +33,7 @@ export interface CpuMetrics {
   system: string;
   process: string;
   cores?: number;
+  timestamp?: number;
 }
 
 export interface MemoryMetrics {
@@ -42,12 +43,14 @@ export interface MemoryMetrics {
   percentage: number;
   heapUsed?: number;
   nonHeapUsed?: number;
+  timestamp?: number;
 }
 
 export interface ThreadMetrics {
   live: number;
   daemon: number;
   peak: number;
+  timestamp?: number;
 }
 
 export interface SystemInfo {

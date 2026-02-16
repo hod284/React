@@ -35,21 +35,21 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
     if (metrics.cpu) {
       setCpuData((prev) => {
-        const newData = [...prev, metrics.cpu];
+        const newData = [...prev, { ...metrics.cpu, timestamp: metrics.timestamp }];
         return newData.slice(-maxDataPoints);
       });
     }
 
     if (metrics.memory) {
       setMemoryData((prev) => {
-        const newData = [...prev, metrics.memory];
+        const newData = [...prev, { ...metrics.memory, timestamp: metrics.timestamp }];
         return newData.slice(-maxDataPoints);
       });
     }
 
     if (metrics.threads) {
       setThreadData((prev) => {
-        const newData = [...prev, metrics.threads];
+        const newData = [...prev, { ...metrics.threads, timestamp: metrics.timestamp }];
         return newData.slice(-maxDataPoints);
       });
     }
@@ -124,13 +124,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       <div className="dashboard-grid">
         <div className="chart-container">
           <div className="card">
-            <CpuChart data={cpuData} maxDataPoints={maxDataPoints} />
+            <CpuChart data={cpuData} />
           </div>
         </div>
 
         <div className="chart-container">
           <div className="card">
-            <MemoryChart data={memoryData} maxDataPoints={maxDataPoints} />
+            <MemoryChart data={memoryData} />
           </div>
         </div>
 

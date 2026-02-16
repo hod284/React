@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -11,8 +11,8 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
-import type { TooltipItem } from 'chart.js';
 import type { CpuMetrics } from '../types';
+import type { TooltipItem } from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -27,38 +27,36 @@ ChartJS.register(
 
 interface CpuChartProps {
   data: CpuMetrics[];
-  maxDataPoints?: number;
 }
 
-const CpuChart: React.FC<CpuChartProps> = ({ data, maxDataPoints = 30 }) => {
-  const limitedData = data.slice(-maxDataPoints);
-  
-  const chartData = useMemo(() => {
-    return {
-      labels: limitedData.map((_, index) => {
-        const secondsAgo = (limitedData.length - index - 1) * 2;
-        return secondsAgo === 0 ? 'Now' : `-${secondsAgo}s`;
-      }),
-      datasets: [
-        {
-          label: 'System CPU (%)',
-          data: limitedData.map((d) => parseFloat(d.system) || 0),
-          borderColor: 'rgb(75, 192, 192)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          tension: 0.4,
-          fill: true,
-        },
-        {
-          label: 'Process CPU (%)',
-          data: limitedData.map((d) => parseFloat(d.process) || 0),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          tension: 0.4,
-          fill: true,
-        },
-      ],
-    };
-  }, [limitedData]);
+const CpuChart: React.FC<CpuChartProps> = ({ data }) => {
+  const chartData = {
+    labels: data.map((item) => {
+      if (item.timestamp) {
+        const time = new Date(item.timestamp);
+        return time.toLocaleTimeString();
+      }
+      return '';
+    }),
+    datasets: [
+      {
+        label: 'System CPU (%)',
+        data: data.map((d) => parseFloat(d.system) || 0),
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.4,
+        fill: true,
+      },
+      {
+        label: 'Process CPU (%)',
+        data: data.map((d) => parseFloat(d.process) || 0),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  };
 
   const options = {
     responsive: true,
