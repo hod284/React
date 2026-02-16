@@ -10,11 +10,40 @@
   width: 250px;
   background: white;  /* ← 흰색 배경 */
   padding: 20px;
+  padding-bottom: 40px; /* 하단 여백 추가 */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   position: fixed;
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   border-right: 1px solid #e0e0e0;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+/* 스크롤바 스타일링 */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* user 권한일 때 사이드바 숨김 */
+.sidebar.hidden {
+  display: none;
 }
 
 .sidebar-header {
@@ -129,6 +158,12 @@
   flex: 1;
   padding: 20px;
   background: #f5f5f5;
+  transition: margin-left 0.3s ease;
+}
+
+/* user 권한일 때 사이드바 없으므로 margin 제거 */
+.dashboard.full-width {
+  margin-left: 0;
 }
 
 .dashboard-header {
@@ -324,11 +359,11 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .sidebar {
+  .sidebar:not(.hidden) {
     width: 200px;
   }
   
-  .dashboard {
+  .dashboard:not(.full-width) {
     margin-left: 200px;
   }
   
@@ -344,7 +379,7 @@
 }
 
 @media (max-width: 480px) {
-  .sidebar {
+  .sidebar:not(.hidden) {
     width: 100%;
     position: relative;
     height: auto;

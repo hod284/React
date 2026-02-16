@@ -251,9 +251,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     }
   };
 
+  const isAdmin = user?.role === 'ADMIN';
+
   return (
     <div className="dashboard-wrapper">
-      {/* Sidebar */}
+      {/* Sidebar - admin만 표시 */}
+      {isAdmin && (
       <aside className="sidebar">
         <div className="sidebar-header">
           <h3>📊 Views</h3>
@@ -348,9 +351,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           </button>
         </div>
       </aside>
+      )}
 
       {/* Main Content */}
-      <div className="dashboard">
+      <div className={`dashboard ${!isAdmin ? 'full-width' : ''}`}>
         <header className="dashboard-header">
           <div className="header-left">
             <h1>System Monitoring Dashboard</h1>
