@@ -126,7 +126,7 @@ body {
   padding: 30px;
   min-width: 0;
 }
-}
+
 .loading-container {
   display: flex;
   flex-direction: column;
