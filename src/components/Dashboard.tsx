@@ -118,8 +118,46 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     }
   };
 
-  const handleViewChange = (view: ViewMode) => {
-    setViewMode(view);
+  // ✅ 수정: 화면 전환 시 REST API 호출!
+  const handleViewChange = async (view: ViewMode) => {
+    if (view === 'overview') {
+      setViewMode(view);
+      return;
+    }
+
+    // Detail 화면으로 전환 시 REST API 호출
+    setLoading(view);
+    try {
+      const timestamp = Date.now();
+      
+      switch (view) {
+        case 'cpu': {
+          const cpuMetrics = await MonitoringService.getCpuMetrics();
+          setCpuData((prev) => [...prev, { ...cpuMetrics, timestamp }].slice(-maxDataPoints));
+          break;
+        }
+        case 'memory': {
+          const memoryMetrics = await MonitoringService.getMemoryMetrics();
+          setMemoryData((prev) => [...prev, { ...memoryMetrics, timestamp }].slice(-maxDataPoints));
+          break;
+        }
+        case 'thread': {
+          const threadMetrics = await MonitoringService.getThreadMetrics();
+          setThreadData((prev) => [...prev, { ...threadMetrics, timestamp }].slice(-maxDataPoints));
+          break;
+        }
+      }
+      
+      setLastUpdate(new Date());
+      setViewMode(view);  // ← API 호출 성공 후 화면 전환
+    } catch (error: unknown) {
+      console.error('Failed to fetch metrics for detail view:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Access denied';
+      setConnectionError(errorMessage);
+      alert(`접근 권한이 없습니다: ${errorMessage}`);
+    } finally {
+      setLoading(null);
+    }
   };
 
   const handleLogout = async () => {
@@ -226,33 +264,45 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           <button
             className={`sidebar-btn overview ${viewMode === 'overview' ? 'active' : ''}`}
             onClick={() => handleViewChange('overview')}
+            disabled={loading !== null}
           >
             <span className="btn-icon">🏠</span>
-            <span className="btn-text">Overview</span>
+            <span className="btn-text">
+              {loading === 'overview' ? 'Loading...' : 'Overview'}
+            </span>
           </button>
 
           <button
             className={`sidebar-btn cpu ${viewMode === 'cpu' ? 'active' : ''}`}
             onClick={() => handleViewChange('cpu')}
+            disabled={loading !== null}
           >
             <span className="btn-icon">💻</span>
-            <span className="btn-text">CPU Detail</span>
+            <span className="btn-text">
+              {loading === 'cpu' ? 'Loading...' : 'CPU Detail'}
+            </span>
           </button>
 
           <button
             className={`sidebar-btn memory ${viewMode === 'memory' ? 'active' : ''}`}
             onClick={() => handleViewChange('memory')}
+            disabled={loading !== null}
           >
             <span className="btn-icon">🧠</span>
-            <span className="btn-text">Memory Detail</span>
+            <span className="btn-text">
+              {loading === 'memory' ? 'Loading...' : 'Memory Detail'}
+            </span>
           </button>
 
           <button
             className={`sidebar-btn thread ${viewMode === 'thread' ? 'active' : ''}`}
             onClick={() => handleViewChange('thread')}
+            disabled={loading !== null}
           >
             <span className="btn-icon">🔄</span>
-            <span className="btn-text">Thread Detail</span>
+            <span className="btn-text">
+              {loading === 'thread' ? 'Loading...' : 'Thread Detail'}
+            </span>
           </button>
         </div>
 
@@ -267,7 +317,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           <button
             className="sidebar-btn cpu-fetch"
             onClick={() => fetchMetricsManually('cpu')}
-            disabled={loading === 'cpu'}
+            disabled={loading !== null}
           >
             <span className="btn-icon">⚡</span>
             <span className="btn-text">
@@ -278,7 +328,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           <button
             className="sidebar-btn memory-fetch"
             onClick={() => fetchMetricsManually('memory')}
-            disabled={loading === 'memory'}
+            disabled={loading !== null}
           >
             <span className="btn-icon">⚡</span>
             <span className="btn-text">
@@ -289,7 +339,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           <button
             className="sidebar-btn thread-fetch"
             onClick={() => fetchMetricsManually('thread')}
-            disabled={loading === 'thread'}
+            disabled={loading !== null}
           >
             <span className="btn-icon">⚡</span>
             <span className="btn-text">

@@ -10,6 +10,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState<'USER' | 'ADMIN'>('USER');
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,11 +22,13 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
     try {
       if (isRegister) {
-        await AuthService.register(username, password, email);
+        // 회원가입 시 role도 함께 전송 (백엔드 수정 필요)
+        await AuthService.register(username, password, email, role);
         setIsRegister(false);
         setError('Registration successful! Please login.');
         setPassword('');
         setEmail('');
+        setRole('USER');
       } else {
         const response = await AuthService.login(username, password);
         onLoginSuccess(response);
@@ -55,16 +58,35 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           </div>
 
           {isRegister && (
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="Enter email"
-              />
-            </div>
+            <>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Enter email"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Role</label>
+                <select 
+                  value={role} 
+                  onChange={(e) => setRole(e.target.value as 'USER' | 'ADMIN')}
+                  className="role-select"
+                >
+                  <option value="USER">User</option>
+                  <option value="ADMIN">Admin</option>
+                </select>
+                <p className="role-hint">
+                  {role === 'ADMIN' 
+                    ? '⚠️ Admin can access all monitoring metrics' 
+                    : 'ℹ️ User has limited access'}
+                </p>
+              </div>
+            </>
           )}
 
           <div className="form-group">
@@ -91,6 +113,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
             onClick={() => {
               setIsRegister(!isRegister);
               setError('');
+              setRole('USER');
             }}
             className="btn-link"
           >

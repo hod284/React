@@ -55,6 +55,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
           font: {
             size: 14,
           },
+          color: '#1a1a1a',
         },
       },
       title: {
@@ -64,6 +65,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
           size: 20,
           weight: 'bold' as const,
         },
+        color: '#1a1a1a',
       },
       tooltip: {
         callbacks: {
@@ -91,6 +93,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
           font: {
             size: 12,
           },
+          color: '#333',
         },
         title: {
           display: true,
@@ -98,6 +101,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
           font: {
             size: 14,
           },
+          color: '#1a1a1a',
         },
         grid: {
           color: 'rgba(0, 0, 0, 0.1)',
@@ -110,11 +114,13 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
           font: {
             size: 14,
           },
+          color: '#1a1a1a',
         },
         ticks: {
           font: {
             size: 11,
           },
+          color: '#333',
         },
         grid: {
           color: 'rgba(0, 0, 0, 0.05)',

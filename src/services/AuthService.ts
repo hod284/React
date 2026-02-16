@@ -16,7 +16,6 @@ class AuthService {
 
   async logout(): Promise<void> {
     try {
-      // axiosInstance를 사용하면 자동으로 토큰이 헤더에 추가됨
       await axiosInstance.post('/auth/logout');
     } catch (error) {
       console.error('Logout error:', error);
@@ -28,12 +27,14 @@ class AuthService {
   async register(
     username: string,
     password: string,
-    email: string
+    email: string,
+    role: 'USER' | 'ADMIN' = 'USER'  // ← role 파라미터 추가
   ): Promise<AuthResponse> {
     const response = await axiosInstance.post<AuthResponse>('/auth/register', {
       username,
       password,
       email,
+      role,  // ← role 전송
     } as RegisterRequest);
     return response.data;
   }

@@ -8,6 +8,7 @@ export interface RegisterRequest {
   username: string;
   password: string;
   email: string;
+  role?: string;  // ← 추가!
 }
 
 export interface AuthResponse {

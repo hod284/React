@@ -65,6 +65,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
           font: {
             size: 14,
           },
+          color: '#1a1a1a',
         },
       },
       title: {
@@ -74,6 +75,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
           size: 20,
           weight: 'bold' as const,
         },
+        color: '#1a1a1a',
       },
       tooltip: {
         callbacks: {
@@ -101,6 +103,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
           font: {
             size: 12,
           },
+          color: '#333',
         },
         title: {
           display: true,
@@ -108,6 +111,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
           font: {
             size: 14,
           },
+          color: '#1a1a1a',
         },
         grid: {
           color: 'rgba(0, 0, 0, 0.1)',
@@ -120,11 +124,13 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
           font: {
             size: 14,
           },
+          color: '#1a1a1a',
         },
         ticks: {
           font: {
             size: 11,
           },
+          color: '#333',
         },
         grid: {
           color: 'rgba(0, 0, 0, 0.05)',
@@ -175,6 +181,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
           size: 16,
           weight: 'bold' as const,
         },
+        color: '#1a1a1a',
       },
       tooltip: {
         callbacks: {
@@ -192,10 +199,17 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
           callback: function (value: string | number) {
             return typeof value === 'number' ? Math.floor(value) : value;
           },
+          color: '#333',
         },
         title: {
           display: true,
           text: 'Number of Threads',
+          color: '#1a1a1a',
+        },
+      },
+      x: {
+        ticks: {
+          color: '#333',
         },
       },
     },
