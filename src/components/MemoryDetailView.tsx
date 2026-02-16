@@ -57,6 +57,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           font: {
             size: 14,
           },
+          color: '#333',
         },
       },
       title: {
@@ -66,6 +67,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           size: 20,
           weight: 'bold' as const,
         },
+        color: '#333',
       },
       tooltip: {
         callbacks: {
@@ -97,6 +99,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           font: {
             size: 14,
           },
+          color: '#333',
         },
         ticks: {
           callback: function (value: string | number) {
@@ -105,6 +108,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           font: {
             size: 12,
           },
+          color: '#666',
         },
         grid: {
           color: 'rgba(0, 0, 0, 0.1)',
@@ -121,6 +125,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           font: {
             size: 14,
           },
+          color: '#333',
         },
         grid: {
           drawOnChartArea: false,
@@ -132,6 +137,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           font: {
             size: 12,
           },
+          color: '#666',
         },
       },
       x: {
@@ -141,11 +147,13 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           font: {
             size: 14,
           },
+          color: '#333',
         },
         ticks: {
           font: {
             size: 11,
           },
+          color: '#666',
         },
         grid: {
           color: 'rgba(0, 0, 0, 0.05)',
@@ -185,6 +193,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           font: {
             size: 13,
           },
+          color: '#333',
         },
       },
       title: {
@@ -194,12 +203,13 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
           size: 16,
           weight: 'bold' as const,
         },
+        color: '#333',
       },
       tooltip: {
         callbacks: {
           label: function (context: TooltipItem<'doughnut'>) {
             const label = context.label || '';
-            const value = context.parsed || 0;
+            const value = context.parsed as number || 0;
             return `${label}: ${value.toFixed(2)} MB`;
           },
         },
@@ -336,6 +346,20 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
               <tr>
                 <td>Free Memory</td>
                 <td>{(latestData.max - latestData.used).toFixed(2)} MB</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Heap Memory</td>
+                <td>{latestData.heapUsed ? latestData.heapUsed.toFixed(2) : 'N/A'} MB</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Non-Heap Memory</td>
+                <td>{latestData.nonHeapUsed ? latestData.nonHeapUsed.toFixed(2) : 'N/A'} MB</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
