@@ -2,7 +2,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import type { CpuMetrics, SystemInfo } from '../types';
 import type { TooltipItem } from 'chart.js';
-
+import '../DetailView.css';
 interface CpuDetailViewProps {
   data: CpuMetrics[];
   systemData: SystemInfo | null;

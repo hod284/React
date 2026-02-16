@@ -14,7 +14,7 @@ import {
 } from 'chart.js';
 import type { MemoryMetrics, SystemInfo } from '../types';
 import type { TooltipItem, ChartOptions } from 'chart.js';
-
+import '../DetailView.css';
 // ← ArcElement 등록!
 ChartJS.register(
   CategoryScale,
