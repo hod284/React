@@ -1,38 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import AuthService from './services/AuthService';
-import { AuthResponse } from './types';
+import type { AuthResponse } from './types';
 import './App.css';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
+  // Lazy initialization - 초기 인증 상태를 한 번만 확인
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
     const user = AuthService.getCurrentUser();
-    if (user && user.accessToken) {
-      setIsAuthenticated(true);
-    }
-    setIsLoading(false);
-  }, []);
+    return !!(user && user.accessToken);
+  });
 
-  const handleLoginSuccess = (userData: AuthResponse) => {
-    setIsAuthenticated(true);
-  };
+
+  
+const handleLoginSuccess = (userData: AuthResponse) => {
+  console.log('User logged in:', userData.username);
+  // 또는 상태 저장 등
+  setIsAuthenticated(true);
+};
 
   const handleLogout = () => {
     setIsAuthenticated(false);
   };
 
-  if (isLoading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Loading...</p>
-      </div>
-    );
-  }
+ 
 
   return (
     <div className="App">
