@@ -10,10 +10,9 @@
 /* Sidebar Styles - 흰색 배경 + 검은색 텍스트 */
 .sidebar {
   width: 250px;
-  min-width: 250px;
-  background: white;
+  background: white;  /* ← 흰색 배경 */
   padding: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 40px; /* 하단 여백 추가 */
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   position: fixed;
   height: 100vh;
@@ -157,18 +156,18 @@
 
 /* Main Dashboard */
 .dashboard {
-  margin-left: 250px;
-  width: calc(100% - 250px);
-  min-height: 100vh;
+  margin-left: 0;
+  width: 100%;
   padding: 30px;
   background: transparent;
+  min-height: 100vh;
   box-sizing: border-box;
 }
 
-/* user 권한일 때 사이드바 없으므로 margin 제거 */
-.dashboard.full-width {
-  margin-left: 0;
-  width: 100%;
+/* admin 권한일 때만 사이드바 여백 추가 */
+.dashboard:not(.full-width) {
+  margin-left: 250px;
+  width: calc(100% - 250px);
 }
 
 .dashboard-header {
@@ -189,10 +188,6 @@
   color: #1a1a1a;
   font-size: 28px;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .connection-status {
@@ -203,25 +198,20 @@
 }
 
 .status-indicator {
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 20px;
   font-weight: 600;
   font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .status-indicator.connected {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  background: #d4edda;
+  color: #155724;
 }
 
 .status-indicator.disconnected {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  background: #f8d7da;
+  color: #721c24;
 }
 
 .last-update {
