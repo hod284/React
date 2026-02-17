@@ -21,7 +21,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
     }),
     datasets: [
       {
-        label: 'Live Threads',
+        label: '활성 스레드',
         data: data.map((d) => d.live || 0),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -30,7 +30,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
         borderWidth: 3,
       },
       {
-        label: 'Daemon Threads',
+        label: '데몬 스레드',
         data: data.map((d) => d.daemon || 0),
         borderColor: 'rgb(255, 206, 86)',
         backgroundColor: 'rgba(255, 206, 86, 0.2)',
@@ -39,7 +39,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
         borderWidth: 3,
       },
       {
-        label: 'Peak Threads',
+        label: '최대 스레드',
         data: data.map((d) => d.peak || 0),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -70,7 +70,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
       },
       title: {
         display: true,
-        text: 'Thread Count Over Time (Detailed View)',
+        text: '시간에 따른 스레드 수 (상세 보기)',
         font: {
           size: 20,
           weight: 'bold' as const,
@@ -85,7 +85,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
               label += ': ';
             }
             if (context.parsed.y !== null) {
-              label += Math.floor(context.parsed.y) + ' threads';
+              label += Math.floor(context.parsed.y) + ' 스레드';
             }
             return label;
           },
@@ -107,7 +107,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
         },
         title: {
           display: true,
-          text: 'Number of Threads',
+          text: '스레드 개수',
           font: {
             size: 14,
           },
@@ -120,7 +120,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: '시간',
           font: {
             size: 14,
           },
@@ -140,10 +140,10 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
   };
 
   const barChartData = {
-    labels: ['Live Threads', 'Daemon Threads', 'Non-Daemon Threads', 'Peak Threads'],
+    labels: ['활성 스레드', '데몬 스레드', '일반 스레드', '최대 스레드'],
     datasets: [
       {
-        label: 'Thread Count',
+        label: '스레드 개수',
         data: [
           latestData?.live || 0,
           latestData?.daemon || 0,
@@ -176,7 +176,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
       },
       title: {
         display: true,
-        text: 'Current Thread Distribution',
+        text: '현재 스레드 분포',
         font: {
           size: 16,
           weight: 'bold' as const,
@@ -186,7 +186,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
       tooltip: {
         callbacks: {
           label: function (context: TooltipItem<'bar'>) {
-            return Math.floor(context.parsed.y || 0) + ' threads';
+            return Math.floor(context.parsed.y || 0) + ' 스레드';
           },
         },
       },
@@ -203,7 +203,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
         },
         title: {
           display: true,
-          text: 'Number of Threads',
+          text: '스레드 개수',
           color: '#1a1a1a',
         },
       },
@@ -240,62 +240,62 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
   return (
     <div className="detail-view">
       <div className="detail-header">
-        <h2>🔄 Thread Metrics - Detailed Analysis</h2>
-        <p>Real-time JVM thread monitoring and lifecycle tracking</p>
+        <h2>🔄 스레드 메트릭 - 상세 분석</h2>
+        <p>실시간 JVM 스레드 모니터링 및 라이프사이클 추적</p>
       </div>
 
       <div className="detail-stats-grid">
         <div className="stat-card thread-live">
-          <h3>Live Threads</h3>
+          <h3>활성 스레드</h3>
           <div className="stat-value">
             {latestData ? Math.floor(latestData.live) : 'N/A'}
           </div>
-          <div className="stat-label">Currently Active</div>
+          <div className="stat-label">현재 활성화</div>
           {stats && (
             <div className="stat-sub">
-              <span>Avg: {Math.floor(stats.avgLive)}</span>
-              <span>Max: {Math.floor(stats.maxLive)}</span>
+              <span>평균: {Math.floor(stats.avgLive)}</span>
+              <span>최대: {Math.floor(stats.maxLive)}</span>
             </div>
           )}
         </div>
 
         <div className="stat-card thread-daemon">
-          <h3>Daemon Threads</h3>
+          <h3>데몬 스레드</h3>
           <div className="stat-value">
             {latestData ? Math.floor(latestData.daemon) : 'N/A'}
           </div>
-          <div className="stat-label">Background Threads</div>
+          <div className="stat-label">백그라운드 스레드</div>
           {stats && (
             <div className="stat-sub">
-              <span>Avg: {Math.floor(stats.avgDaemon)}</span>
+              <span>평균: {Math.floor(stats.avgDaemon)}</span>
             </div>
           )}
         </div>
 
         <div className="stat-card thread-user">
-          <h3>User Threads</h3>
+          <h3>일반 스레드</h3>
           <div className="stat-value">
             {latestData ? Math.floor(latestData.live - latestData.daemon) : 'N/A'}
           </div>
-          <div className="stat-label">Non-Daemon Threads</div>
+          <div className="stat-label">논데몬 스레드</div>
           {latestData && (
             <div className="stat-sub">
               <span>
-                {((((latestData.live - latestData.daemon) / latestData.live) * 100) || 0).toFixed(1)}% of total
+                {((((latestData.live - latestData.daemon) / latestData.live) * 100) || 0).toFixed(1)}% 전체 중
               </span>
             </div>
           )}
         </div>
 
         <div className="stat-card thread-peak">
-          <h3>Peak Threads</h3>
+          <h3>최대 스레드</h3>
           <div className="stat-value">
             {latestData ? Math.floor(latestData.peak) : 'N/A'}
           </div>
-          <div className="stat-label">Maximum Reached</div>
+          <div className="stat-label">최대 도달</div>
           {stats && (
             <div className="stat-sub">
-              <span>Max: {Math.floor(stats.maxPeak)}</span>
+              <span>최대: {Math.floor(stats.maxPeak)}</span>
             </div>
           )}
         </div>
@@ -319,73 +319,71 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
         <>
           <div className="detail-info-grid">
             <div className="info-card">
-              <h3>💡 Thread Types Explained</h3>
+              <h3>💡 스레드 유형 설명</h3>
               <ul>
                 <li>
-                  <strong>Live Threads:</strong> All currently active threads in the JVM
+                  <strong>활성 스레드:</strong> JVM에서 현재 활성화된 모든 스레드
                 </li>
                 <li>
-                  <strong>Daemon Threads:</strong> Background threads that don't prevent JVM
-                  shutdown
+                  <strong>데몬 스레드:</strong> JVM 종료를 방해하지 않는 백그라운드 스레드
                 </li>
                 <li>
-                  <strong>User Threads:</strong> Regular threads that must complete before JVM
-                  exits
+                  <strong>일반 스레드:</strong> JVM이 종료되기 전에 완료되어야 하는 일반 스레드
                 </li>
                 <li>
-                  <strong>Peak Threads:</strong> Highest number of threads since JVM started
+                  <strong>최대 스레드:</strong> JVM 시작 이후 최대 스레드 개수
                 </li>
               </ul>
             </div>
 
             <div className="info-card">
-              <h3>📊 Current Status</h3>
+              <h3>📊 현재 상태</h3>
               <ul>
                 <li>
-                  <strong>Daemon Ratio:</strong>{' '}
+                  <strong>데몬 비율:</strong>{' '}
                   {((latestData.daemon / latestData.live) * 100 || 0).toFixed(1)}%
                 </li>
                 <li>
-                  <strong>User Ratio:</strong>{' '}
+                  <strong>일반 비율:</strong>{' '}
                   {(((latestData.live - latestData.daemon) / latestData.live) * 100 || 0).toFixed(1)}%
                 </li>
                 <li>
-                  <strong>Peak Utilization:</strong>{' '}
+                  <strong>최대 사용률:</strong>{' '}
                   {((latestData.live / latestData.peak) * 100 || 0).toFixed(1)}%
                 </li>
                 <li>
-                  <strong>Available Processors:</strong> {systemData?.availableProcessors || 'N/A'}
+                  <strong>사용 가능한 프로세서:</strong> {systemData?.availableProcessors || 'N/A'}
                 </li>
               </ul>
             </div>
           </div>
 
           <div className="detail-table">
-            <h3>Statistical Summary</h3>
+            <h3>통계 요약</h3>
             <table>
               <thead>
                 <tr>
-                  <th>Metric</th>
-                  <th>Current</th>
-                  <th>Average</th>
-                  <th>Maximum</th>
+                  <th>메트릭</th>
+                  <th>현재</th>
+                  <th>평균</th>
+                  <th>최대</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Live Threads</td>
+                  <td>활성 스레드</td>
                   <td>{Math.floor(latestData.live)}</td>
                   <td>{Math.floor(stats.avgLive)}</td>
                   <td>{Math.floor(stats.maxLive)}</td>
                 </tr>
                 <tr>
-                  <td>Daemon Threads</td>
+                  <td>데몬 스레드</td>
                   <td>{Math.floor(latestData.daemon)}</td>
                   <td>{Math.floor(stats.avgDaemon)}</td>
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td>User Threads</td>
+                  <td>일반 스레드</td>
                   <td>{Math.floor(latestData.live - latestData.daemon)}</td>
                   <td>
                     {Math.floor(stats.avgLive - stats.avgDaemon)}
@@ -393,7 +391,7 @@ const ThreadDetailView: React.FC<ThreadDetailViewProps> = ({ data, systemData })
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td>Peak Threads</td>
+                  <td>최대 스레드</td>
                   <td>{Math.floor(latestData.peak)}</td>
                   <td>-</td>
                   <td>{Math.floor(stats.maxPeak)}</td>

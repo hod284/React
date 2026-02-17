@@ -21,7 +21,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
     }),
     datasets: [
       {
-        label: 'System CPU (%)',
+        label: '시스템 CPU (%)',
         data: data.map((d) => parseFloat(d.system) || 0),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -30,7 +30,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
         borderWidth: 3,
       },
       {
-        label: 'Process CPU (%)',
+        label: '프로세스 CPU (%)',
         data: data.map((d) => parseFloat(d.process) || 0),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -60,7 +60,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
       },
       title: {
         display: true,
-        text: 'CPU Usage Over Time (Detailed View)',
+        text: '시간에 따른 CPU 사용률 (상세 보기)',
         font: {
           size: 20,
           weight: 'bold' as const,
@@ -97,7 +97,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
         },
         title: {
           display: true,
-          text: 'CPU Usage (%)',
+          text: 'CPU 사용률 (%)',
           font: {
             size: 14,
           },
@@ -110,7 +110,7 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: '시간',
           font: {
             size: 14,
           },
@@ -157,54 +157,54 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
   return (
     <div className="detail-view">
       <div className="detail-header">
-        <h2>💻 CPU Metrics - Detailed Analysis</h2>
-        <p>Real-time processor utilization and performance metrics</p>
+        <h2>💻 CPU 메트릭 - 상세 분석</h2>
+        <p>실시간 프로세서 사용률 및 성능 메트릭</p>
       </div>
 
       <div className="detail-stats-grid">
         <div className="stat-card system-cpu">
-          <h3>System CPU</h3>
+          <h3>시스템 CPU</h3>
           <div className="stat-value">
             {latestData ? `${parseFloat(latestData.system).toFixed(2)}%` : 'N/A'}
           </div>
-          <div className="stat-label">Current Usage</div>
+          <div className="stat-label">현재 사용률</div>
           {stats && (
             <div className="stat-sub">
-              <span>Avg: {stats.avgSystem.toFixed(2)}%</span>
-              <span>Max: {stats.maxSystem.toFixed(2)}%</span>
+              <span>평균: {stats.avgSystem.toFixed(2)}%</span>
+              <span>최대: {stats.maxSystem.toFixed(2)}%</span>
             </div>
           )}
         </div>
 
         <div className="stat-card process-cpu">
-          <h3>Process CPU</h3>
+          <h3>프로세스 CPU</h3>
           <div className="stat-value">
             {latestData ? `${parseFloat(latestData.process).toFixed(2)}%` : 'N/A'}
           </div>
-          <div className="stat-label">Current Usage</div>
+          <div className="stat-label">현재 사용률</div>
           {stats && (
             <div className="stat-sub">
-              <span>Avg: {stats.avgProcess.toFixed(2)}%</span>
-              <span>Max: {stats.maxProcess.toFixed(2)}%</span>
+              <span>평균: {stats.avgProcess.toFixed(2)}%</span>
+              <span>최대: {stats.maxProcess.toFixed(2)}%</span>
             </div>
           )}
         </div>
 
         <div className="stat-card cores">
-          <h3>CPU Cores</h3>
+          <h3>CPU 코어</h3>
           <div className="stat-value">{systemData?.availableProcessors || 'N/A'}</div>
-          <div className="stat-label">Available Processors</div>
+          <div className="stat-label">사용 가능한 프로세서</div>
           <div className="stat-sub">
-            <span>Architecture: {systemData?.architecture || 'N/A'}</span>
+            <span>아키텍처: {systemData?.architecture || 'N/A'}</span>
           </div>
         </div>
 
         <div className="stat-card data-points">
-          <h3>Data Points</h3>
+          <h3>데이터 포인트</h3>
           <div className="stat-value">{data.length}</div>
-          <div className="stat-label">Collected Samples</div>
+          <div className="stat-label">수집된 샘플</div>
           <div className="stat-sub">
-            <span>Max: 50 points</span>
+            <span>최대: 50 포인트</span>
           </div>
         </div>
       </div>
@@ -217,27 +217,27 @@ const CpuDetailView: React.FC<CpuDetailViewProps> = ({ data, systemData }) => {
 
       {stats && (
         <div className="detail-table">
-          <h3>Statistical Summary</h3>
+          <h3>통계 요약</h3>
           <table>
             <thead>
               <tr>
-                <th>Metric</th>
-                <th>Current</th>
-                <th>Average</th>
-                <th>Maximum</th>
-                <th>Minimum</th>
+                <th>메트릭</th>
+                <th>현재</th>
+                <th>평균</th>
+                <th>최대</th>
+                <th>최소</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>System CPU</td>
+                <td>시스템 CPU</td>
                 <td>{latestData ? parseFloat(latestData.system).toFixed(2) : 'N/A'}%</td>
                 <td>{stats.avgSystem.toFixed(2)}%</td>
                 <td>{stats.maxSystem.toFixed(2)}%</td>
                 <td>{stats.minSystem.toFixed(2)}%</td>
               </tr>
               <tr>
-                <td>Process CPU</td>
+                <td>프로세스 CPU</td>
                 <td>{latestData ? parseFloat(latestData.process).toFixed(2) : 'N/A'}%</td>
                 <td>{stats.avgProcess.toFixed(2)}%</td>
                 <td>{stats.maxProcess.toFixed(2)}%</td>

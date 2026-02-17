@@ -46,7 +46,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
     }),
     datasets: [
       {
-        label: 'Used Memory (MB)',
+        label: '사용 중인 메모리 (MB)',
         data: data.map((d) => d.used || 0),
         borderColor: 'rgb(153, 102, 255)',
         backgroundColor: 'rgba(153, 102, 255, 0.2)',
@@ -56,7 +56,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
         borderWidth: 3,
       },
       {
-        label: 'Memory Usage (%)',
+        label: '메모리 사용률 (%)',
         data: data.map((d) => d.percentage || 0),
         borderColor: 'rgb(255, 159, 64)',
         backgroundColor: 'rgba(255, 159, 64, 0.2)',
@@ -87,7 +87,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
       },
       title: {
         display: true,
-        text: 'Memory Usage Over Time (Detailed View)',
+        text: '시간에 따른 메모리 사용량 (상세 보기)',
         font: {
           size: 20,
           weight: 'bold' as const,
@@ -120,7 +120,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
         position: 'left' as const,
         title: {
           display: true,
-          text: 'Memory (MB)',
+          text: '메모리 (MB)',
           font: {
             size: 14,
           },
@@ -146,7 +146,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
         max: 100,
         title: {
           display: true,
-          text: 'Percentage (%)',
+          text: '백분율 (%)',
           font: {
             size: 14,
           },
@@ -168,7 +168,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: '시간',
           font: {
             size: 14,
           },
@@ -188,7 +188,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
   };
 
   const doughnutData = {
-    labels: ['Used Memory', 'Free Memory'],
+    labels: ['사용 중인 메모리', '여유 메모리'],
     datasets: [
       {
         data: [
@@ -223,7 +223,7 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
       },
       title: {
         display: true,
-        text: 'Current Memory Distribution',
+        text: '현재 메모리 분포',
         font: {
           size: 16,
           weight: 'bold' as const,
@@ -267,60 +267,60 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
   return (
     <div className="detail-view">
       <div className="detail-header">
-        <h2>🧠 Memory Metrics - Detailed Analysis</h2>
-        <p>Real-time memory utilization and allocation tracking</p>
+        <h2>🧠 메모리 메트릭 - 상세 분석</h2>
+        <p>실시간 메모리 사용률 및 할당 추적</p>
       </div>
 
       <div className="detail-stats-grid">
         <div className="stat-card memory-used">
-          <h3>Used Memory</h3>
+          <h3>사용 중인 메모리</h3>
           <div className="stat-value">
             {latestData ? `${latestData.used.toFixed(2)} MB` : 'N/A'}
           </div>
-          <div className="stat-label">Current Allocation</div>
+          <div className="stat-label">현재 할당량</div>
           {stats && (
             <div className="stat-sub">
-              <span>Avg: {stats.avgUsed.toFixed(2)} MB</span>
-              <span>Max: {stats.maxUsed.toFixed(2)} MB</span>
+              <span>평균: {stats.avgUsed.toFixed(2)} MB</span>
+              <span>최대: {stats.maxUsed.toFixed(2)} MB</span>
             </div>
           )}
         </div>
 
         <div className="stat-card memory-percentage">
-          <h3>Usage Percentage</h3>
+          <h3>사용률</h3>
           <div className="stat-value">
             {latestData ? `${latestData.percentage.toFixed(2)}%` : 'N/A'}
           </div>
-          <div className="stat-label">Memory Utilization</div>
+          <div className="stat-label">메모리 사용률</div>
           {stats && (
             <div className="stat-sub">
-              <span>Avg: {stats.avgPercentage.toFixed(2)}%</span>
+              <span>평균: {stats.avgPercentage.toFixed(2)}%</span>
             </div>
           )}
         </div>
 
         <div className="stat-card memory-max">
-          <h3>Max Memory</h3>
+          <h3>최대 메모리</h3>
           <div className="stat-value">
             {latestData ? `${latestData.max.toFixed(2)} MB` : 'N/A'}
           </div>
-          <div className="stat-label">Total Available</div>
+          <div className="stat-label">총 사용 가능량</div>
           {latestData && (
             <div className="stat-sub">
-              <span>Free: {(latestData.max - latestData.used).toFixed(2)} MB</span>
+              <span>여유: {(latestData.max - latestData.used).toFixed(2)} MB</span>
             </div>
           )}
         </div>
 
         <div className="stat-card jvm-memory">
-          <h3>JVM Memory</h3>
+          <h3>JVM 메모리</h3>
           <div className="stat-value">
             {systemData ? `${systemData.jvmMaxMemory.toFixed(0)} MB` : 'N/A'}
           </div>
-          <div className="stat-label">JVM Max Memory</div>
+          <div className="stat-label">JVM 최대 메모리</div>
           {systemData && (
             <div className="stat-sub">
-              <span>Total: {systemData.jvmTotalMemory.toFixed(0)} MB</span>
+              <span>전체: {systemData.jvmTotalMemory.toFixed(0)} MB</span>
             </div>
           )}
         </div>
@@ -342,48 +342,48 @@ const MemoryDetailView: React.FC<MemoryDetailViewProps> = ({ data, systemData })
 
       {stats && latestData && (
         <div className="detail-table">
-          <h3>Statistical Summary</h3>
+          <h3>통계 요약</h3>
           <table>
             <thead>
               <tr>
-                <th>Metric</th>
-                <th>Current</th>
-                <th>Average</th>
-                <th>Maximum</th>
-                <th>Minimum</th>
+                <th>메트릭</th>
+                <th>현재</th>
+                <th>평균</th>
+                <th>최대</th>
+                <th>최소</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Used Memory</td>
+                <td>사용 중인 메모리</td>
                 <td>{latestData.used.toFixed(2)} MB</td>
                 <td>{stats.avgUsed.toFixed(2)} MB</td>
                 <td>{stats.maxUsed.toFixed(2)} MB</td>
                 <td>{stats.minUsed.toFixed(2)} MB</td>
               </tr>
               <tr>
-                <td>Usage Percentage</td>
+                <td>사용률</td>
                 <td>{latestData.percentage.toFixed(2)}%</td>
                 <td>{stats.avgPercentage.toFixed(2)}%</td>
                 <td>-</td>
                 <td>-</td>
               </tr>
               <tr>
-                <td>Free Memory</td>
+                <td>여유 메모리</td>
                 <td>{(latestData.max - latestData.used).toFixed(2)} MB</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
               </tr>
               <tr>
-                <td>Heap Memory</td>
+                <td>힙 메모리</td>
                 <td>{latestData.heapUsed ? latestData.heapUsed.toFixed(2) : 'N/A'} MB</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
               </tr>
               <tr>
-                <td>Non-Heap Memory</td>
+                <td>논힙 메모리</td>
                 <td>{latestData.nonHeapUsed ? latestData.nonHeapUsed.toFixed(2) : 'N/A'} MB</td>
                 <td>-</td>
                 <td>-</td>
