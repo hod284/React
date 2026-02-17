@@ -94,17 +94,39 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       switch (type) {
         case 'cpu': {
           const cpuMetrics = await MonitoringService.getCpuMetrics();
-          setCpuData((prev) => [...prev, { ...cpuMetrics, timestamp }].slice(-maxDataPoints));
+          // 데이터 정규화: 안전하게 문자열로 변환
+          const normalizedCpu = {
+            system: String(cpuMetrics.system ?? '0'),
+            process: String(cpuMetrics.process ?? '0'),
+            timestamp
+          };
+          setCpuData((prev) => [...prev, normalizedCpu].slice(-maxDataPoints));
           break;
         }
         case 'memory': {
           const memoryMetrics = await MonitoringService.getMemoryMetrics();
-          setMemoryData((prev) => [...prev, { ...memoryMetrics, timestamp }].slice(-maxDataPoints));
+          // 데이터 정규화: 안전하게 숫자로 변환
+          const normalizedMemory = {
+            used: Number(memoryMetrics.used) || 0,
+            max: Number(memoryMetrics.max) || 0,
+            percentage: Number(memoryMetrics.percentage) || 0,
+            heapUsed: Number(memoryMetrics.heapUsed) || 0,
+            nonHeapUsed: Number(memoryMetrics.nonHeapUsed) || 0,
+            timestamp
+          };
+          setMemoryData((prev) => [...prev, normalizedMemory].slice(-maxDataPoints));
           break;
         }
         case 'thread': {
           const threadMetrics = await MonitoringService.getThreadMetrics();
-          setThreadData((prev) => [...prev, { ...threadMetrics, timestamp }].slice(-maxDataPoints));
+          // 데이터 정규화: 안전하게 숫자로 변환
+          const normalizedThread = {
+            live: Number(threadMetrics.live) || 0,
+            daemon: Number(threadMetrics.daemon) || 0,
+            peak: Number(threadMetrics.peak) || 0,
+            timestamp
+          };
+          setThreadData((prev) => [...prev, normalizedThread].slice(-maxDataPoints));
           break;
         }
       }
@@ -133,17 +155,39 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       switch (view) {
         case 'cpu': {
           const cpuMetrics = await MonitoringService.getCpuMetrics();
-          setCpuData((prev) => [...prev, { ...cpuMetrics, timestamp }].slice(-maxDataPoints));
+          // 데이터 정규화: 안전하게 문자열로 변환
+          const normalizedCpu = {
+            system: String(cpuMetrics.system ?? '0'),
+            process: String(cpuMetrics.process ?? '0'),
+            timestamp
+          };
+          setCpuData((prev) => [...prev, normalizedCpu].slice(-maxDataPoints));
           break;
         }
         case 'memory': {
           const memoryMetrics = await MonitoringService.getMemoryMetrics();
-          setMemoryData((prev) => [...prev, { ...memoryMetrics, timestamp }].slice(-maxDataPoints));
+          // 데이터 정규화: 안전하게 숫자로 변환
+          const normalizedMemory = {
+            used: Number(memoryMetrics.used) || 0,
+            max: Number(memoryMetrics.max) || 0,
+            percentage: Number(memoryMetrics.percentage) || 0,
+            heapUsed: Number(memoryMetrics.heapUsed) || 0,
+            nonHeapUsed: Number(memoryMetrics.nonHeapUsed) || 0,
+            timestamp
+          };
+          setMemoryData((prev) => [...prev, normalizedMemory].slice(-maxDataPoints));
           break;
         }
         case 'thread': {
           const threadMetrics = await MonitoringService.getThreadMetrics();
-          setThreadData((prev) => [...prev, { ...threadMetrics, timestamp }].slice(-maxDataPoints));
+          // 데이터 정규화: 안전하게 숫자로 변환
+          const normalizedThread = {
+            live: Number(threadMetrics.live) || 0,
+            daemon: Number(threadMetrics.daemon) || 0,
+            peak: Number(threadMetrics.peak) || 0,
+            timestamp
+          };
+          setThreadData((prev) => [...prev, normalizedThread].slice(-maxDataPoints));
           break;
         }
       }
