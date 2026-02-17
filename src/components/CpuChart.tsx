@@ -40,7 +40,7 @@ const CpuChart: React.FC<CpuChartProps> = ({ data }) => {
     }),
     datasets: [
       {
-        label: 'System CPU (%)',
+        label: '시스템 CPU (%)',
         data: data.map((d) => parseFloat(d.system) || 0),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -48,7 +48,7 @@ const CpuChart: React.FC<CpuChartProps> = ({ data }) => {
         fill: true,
       },
       {
-        label: 'Process CPU (%)',
+        label: '프로세스 CPU (%)',
         data: data.map((d) => parseFloat(d.process) || 0),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -71,7 +71,7 @@ const CpuChart: React.FC<CpuChartProps> = ({ data }) => {
       },
       title: {
         display: true,
-        text: 'CPU Usage Over Time',
+        text: '시간에 따른 CPU 사용률',
         font: {
           size: 16,
           weight: 'bold' as const,
@@ -103,13 +103,13 @@ const CpuChart: React.FC<CpuChartProps> = ({ data }) => {
         },
         title: {
           display: true,
-          text: 'CPU Usage (%)',
+          text: 'CPU 사용률 (%)',
         },
       },
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: '시간',
         },
       },
     },

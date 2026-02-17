@@ -22,10 +22,10 @@ const ThreadChart: React.FC<ThreadChartProps> = ({ data }) => {
   const latestData = data[data.length - 1] || { live: 0, daemon: 0, peak: 0 };
 
   const chartData = {
-    labels: ['Live Threads', 'Daemon Threads', 'Peak Threads'],
+    labels: ['활성 스레드', '데몬 스레드', '최대 스레드'],
     datasets: [
       {
-        label: 'Thread Count',
+        label: '스레드 개수',
         data: [latestData.live, latestData.daemon, latestData.peak],
         backgroundColor: [
           'rgba(75, 192, 192, 0.6)',
@@ -51,7 +51,7 @@ const ThreadChart: React.FC<ThreadChartProps> = ({ data }) => {
       },
       title: {
         display: true,
-        text: 'JVM Thread Statistics',
+        text: 'JVM 스레드 통계',
         font: {
           size: 16,
           weight: 'bold' as const,
@@ -60,7 +60,7 @@ const ThreadChart: React.FC<ThreadChartProps> = ({ data }) => {
       tooltip: {
         callbacks: {
           label: function (context: TooltipItem<'bar'>) {
-            return context.parsed.y + ' threads';
+            return context.parsed.y + ' 스레드';
           },
         },
       },
@@ -76,7 +76,7 @@ const ThreadChart: React.FC<ThreadChartProps> = ({ data }) => {
         },
         title: {
           display: true,
-          text: 'Number of Threads',
+          text: '스레드 개수',
         },
       },
     },

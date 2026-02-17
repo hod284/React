@@ -18,7 +18,7 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data }) => {
     }),
     datasets: [
       {
-        label: 'Used Memory (MB)',
+        label: '사용 중인 메모리 (MB)',
         data: data.map((d) => d.used || 0),
         borderColor: 'rgb(153, 102, 255)',
         backgroundColor: 'rgba(153, 102, 255, 0.2)',
@@ -27,7 +27,7 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data }) => {
         yAxisID: 'y',
       },
       {
-        label: 'Memory Usage (%)',
+        label: '메모리 사용률 (%)',
         data: data.map((d) => d.percentage || 0),
         borderColor: 'rgb(255, 159, 64)',
         backgroundColor: 'rgba(255, 159, 64, 0.2)',
@@ -51,7 +51,7 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data }) => {
       },
       title: {
         display: true,
-        text: 'Memory Usage Over Time',
+        text: '시간에 따른 메모리 사용량',
         font: {
           size: 16,
           weight: 'bold' as const,
@@ -83,7 +83,7 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data }) => {
         position: 'left' as const,
         title: {
           display: true,
-          text: 'Memory (MB)',
+          text: '메모리 (MB)',
         },
         ticks: {
           callback: function (value: string | number) {
@@ -98,7 +98,7 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data }) => {
         max: 100,
         title: {
           display: true,
-          text: 'Percentage (%)',
+          text: '백분율 (%)',
         },
         grid: {
           drawOnChartArea: false,
@@ -112,7 +112,7 @@ const MemoryChart: React.FC<MemoryChartProps> = ({ data }) => {
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: '시간',
         },
       },
     },
