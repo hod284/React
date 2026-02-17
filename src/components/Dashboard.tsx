@@ -76,7 +76,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const handleError = useCallback((error: unknown) => {
     console.error('WebSocket error:', error);
     setConnected(false);
-    setConnectionError('Connection error. Attempting to reconnect...');
+    setConnectionError('연결 오류. 재연결을 시도하는 중...');
   }, []);
 
   useEffect(() => {
@@ -111,7 +111,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       setLastUpdate(new Date());
     } catch (error: unknown) {
       console.error('Failed to fetch metrics:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch metrics';
+      const errorMessage = error instanceof Error ? error.message : '메트릭 조회 실패';
       setConnectionError(errorMessage);
     } finally {
       setLoading(null);
@@ -152,7 +152,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       setViewMode(view);  // ← API 호출 성공 후 화면 전환
     } catch (error: unknown) {
       console.error('Failed to fetch metrics for detail view:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Access denied';
+      const errorMessage = error instanceof Error ? error.message : '접근 거부됨';
       setConnectionError(errorMessage);
       alert(`접근 권한이 없습니다: ${errorMessage}`);
     } finally {
@@ -213,11 +213,11 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                     ? `${parseFloat(cpuData[cpuData.length - 1]?.system || '0').toFixed(2)}%`
                     : 'N/A'}
                 </div>
-                <div className="metric-label">System Usage</div>
+                <div className="metric-label">시스템 사용률</div>
               </div>
 
               <div className="summary-card">
-                <h4>Memory</h4>
+                <h4>메모리</h4>
                 <div className="metric-value">
                   {memoryData.length > 0
                     ? `${parseFloat(
@@ -225,25 +225,25 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                       ).toFixed(2)}%`
                     : 'N/A'}
                 </div>
-                <div className="metric-label">Usage</div>
+                <div className="metric-label">사용률</div>
               </div>
 
               <div className="summary-card">
-                <h4>Threads</h4>
+                <h4>스레드</h4>
                 <div className="metric-value">
                   {threadData.length > 0
                     ? Math.floor(threadData[threadData.length - 1]?.live || 0)
                     : 'N/A'}
                 </div>
-                <div className="metric-label">Live Threads</div>
+                <div className="metric-label">활성 스레드</div>
               </div>
 
               <div className="summary-card">
-                <h4>Cores</h4>
+                <h4>코어</h4>
                 <div className="metric-value">
                   {systemData?.availableProcessors || 'N/A'}
                 </div>
-                <div className="metric-label">Available</div>
+                <div className="metric-label">사용 가능</div>
               </div>
             </div>
           </>
@@ -259,8 +259,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       {isAdmin && (
       <aside className="sidebar">
         <div className="sidebar-header">
-          <h3>📊 Views</h3>
-          <p>Detailed Metrics</p>
+          <h3>📊 보기</h3>
+          <p>상세 메트릭</p>
         </div>
 
         <div className="sidebar-buttons">
@@ -271,7 +271,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           >
             <span className="btn-icon">🏠</span>
             <span className="btn-text">
-              {loading === 'overview' ? 'Loading...' : 'Overview'}
+              {loading === 'overview' ? '로딩 중...' : '개요'}
             </span>
           </button>
 
@@ -282,7 +282,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           >
             <span className="btn-icon">💻</span>
             <span className="btn-text">
-              {loading === 'cpu' ? 'Loading...' : 'CPU Detail'}
+              {loading === 'cpu' ? '로딩 중...' : 'CPU 상세'}
             </span>
           </button>
 
@@ -293,7 +293,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           >
             <span className="btn-icon">🧠</span>
             <span className="btn-text">
-              {loading === 'memory' ? 'Loading...' : 'Memory Detail'}
+              {loading === 'memory' ? '로딩 중...' : '메모리 상세'}
             </span>
           </button>
 
@@ -304,7 +304,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           >
             <span className="btn-icon">🔄</span>
             <span className="btn-text">
-              {loading === 'thread' ? 'Loading...' : 'Thread Detail'}
+              {loading === 'thread' ? '로딩 중...' : '스레드 상세'}
             </span>
           </button>
         </div>
@@ -312,7 +312,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         <div className="sidebar-divider"></div>
 
         <div className="sidebar-header">
-          <h3>📡 Manual Fetch</h3>
+          <h3>📡 수동 조회</h3>
           <p>REST API</p>
         </div>
 
@@ -324,7 +324,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           >
             <span className="btn-icon">⚡</span>
             <span className="btn-text">
-              {loading === 'cpu' ? 'Loading...' : 'Fetch CPU'}
+              {loading === 'cpu' ? '로딩 중...' : 'CPU 조회'}
             </span>
           </button>
 
@@ -335,7 +335,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           >
             <span className="btn-icon">⚡</span>
             <span className="btn-text">
-              {loading === 'memory' ? 'Loading...' : 'Fetch Memory'}
+              {loading === 'memory' ? '로딩 중...' : '메모리 조회'}
             </span>
           </button>
 
@@ -346,7 +346,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           >
             <span className="btn-icon">⚡</span>
             <span className="btn-text">
-              {loading === 'thread' ? 'Loading...' : 'Fetch Thread'}
+              {loading === 'thread' ? '로딩 중...' : '스레드 조회'}
             </span>
           </button>
         </div>
@@ -357,26 +357,26 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       <div className={`dashboard ${!isAdmin ? 'full-width' : ''}`}>
         <header className="dashboard-header">
           <div className="header-left">
-            <h1>System Monitoring Dashboard</h1>
+            <h1>시스템 모니터링 대시보드</h1>
             <div className="connection-status">
               <span
                 className={`status-indicator ${connected ? 'connected' : 'disconnected'}`}
               >
-                {connected ? '● Connected' : '○ Disconnected'}
+                {connected ? '● 연결됨' : '○ 연결 끊김'}
               </span>
               {lastUpdate && (
                 <span className="last-update">
-                  Last update: {lastUpdate.toLocaleTimeString()}
+                  마지막 업데이트: {lastUpdate.toLocaleTimeString()}
                 </span>
               )}
             </div>
           </div>
           <div className="header-right">
             <span className="user-info">
-              Welcome, {user?.username} ({user?.role})
+              환영합니다, {user?.username} ({user?.role})
             </span>
             <button onClick={handleLogout} className="btn-logout">
-              Logout
+              로그아웃
             </button>
           </div>
         </header>
