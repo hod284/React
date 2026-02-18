@@ -90,31 +90,58 @@ axiosInstance.interceptors.response.use(
     // 에러 메시지를 한글로 변환
     if (error.response) {
       const status = error.response.status;
-      let koreanMessage = '';
-
-      switch (status) {
-        case 400:
-          koreanMessage = '잘못된 요청입니다';
-          break;
-        case 401:
-          koreanMessage = '인증이 필요합니다';
-          break;
-        case 403:
-          koreanMessage = '접근 권한이 없습니다';
-          break;
-        case 404:
-          koreanMessage = '요청한 리소스를 찾을 수 없습니다';
-          break;
-        case 500:
-          koreanMessage = '서버 오류가 발생했습니다';
-          break;
-        default:
-          koreanMessage = `요청 실패 (상태 코드: ${status})`;
-      }
-
-      // 서버에서 제공한 메시지가 있으면 사용, 없으면 기본 메시지 사용
       const serverMessage = error.response.data?.message || error.response.data?.error;
-      error.message = serverMessage || koreanMessage;
+      
+      // 서버 메시지를 한글로 매핑
+      const messageMap: Record<string, string> = {
+        'Username is already taken': '이미 사용 중인 사용자명입니다',
+        'Email is already taken': '이미 사용 중인 이메일입니다',
+        'Invalid username or password': '사용자명 또는 비밀번호가 올바르지 않습니다',
+        'Invalid credentials': '인증 정보가 올바르지 않습니다',
+        'User not found': '사용자를 찾을 수 없습니다',
+        'Access denied': '접근이 거부되었습니다',
+        'Token expired': '토큰이 만료되었습니다',
+        'Invalid token': '유효하지 않은 토큰입니다',
+        'Unauthorized': '인증되지 않았습니다',
+        'Forbidden': '접근 권한이 없습니다',
+        'Bad Request': '잘못된 요청입니다',
+        'Internal Server Error': '서버 내부 오류가 발생했습니다',
+        'Service Unavailable': '서비스를 사용할 수 없습니다',
+      };
+
+      // 서버 메시지가 있고 매핑이 존재하면 한글로 변환
+      if (serverMessage && messageMap[serverMessage]) {
+        error.message = messageMap[serverMessage];
+      } else if (serverMessage) {
+        // 매핑이 없으면 서버 메시지 그대로 사용
+        error.message = serverMessage;
+      } else {
+        // 서버 메시지가 없으면 상태 코드 기반 메시지 사용
+        let koreanMessage = '';
+        switch (status) {
+          case 400:
+            koreanMessage = '잘못된 요청입니다';
+            break;
+          case 401:
+            koreanMessage = '인증이 필요합니다';
+            break;
+          case 403:
+            koreanMessage = '접근 권한이 없습니다';
+            break;
+          case 404:
+            koreanMessage = '요청한 리소스를 찾을 수 없습니다';
+            break;
+          case 500:
+            koreanMessage = '서버 오류가 발생했습니다';
+            break;
+          case 503:
+            koreanMessage = '서비스를 사용할 수 없습니다';
+            break;
+          default:
+            koreanMessage = `요청 실패 (상태 코드: ${status})`;
+        }
+        error.message = koreanMessage;
+      }
     } else if (error.request) {
       error.message = '서버에 연결할 수 없습니다';
     } else {

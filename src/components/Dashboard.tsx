@@ -126,6 +126,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
         break;
     }
     
+    // 0.5초 대기 후 실제 데이터 조회 (시각적 피드백)
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
     try {
       switch (type) {
         case 'cpu': {
