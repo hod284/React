@@ -18,7 +18,7 @@ class AuthService {
     try {
       await axiosInstance.post('/auth/logout');
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error('로그아웃 오류:', error);
     } finally {
       localStorage.removeItem('user');
     }

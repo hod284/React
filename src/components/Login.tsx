@@ -25,7 +25,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       if (isRegister) {
         await AuthService.register(username, password, email, role);
         setIsRegister(false);
-        setError('Registration successful! Please login.');
+        setError('회원가입이 완료되었습니다! 로그인해주세요.');
         setPassword('');
         setEmail('');
         setRole('USER');
@@ -34,7 +34,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         onLoginSuccess(response);
       }
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
+      const errorMessage = err instanceof Error ? err.message : '인증에 실패했습니다';
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -44,16 +44,16 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2>{isRegister ? 'Register' : 'Login'}</h2>
+        <h2>{isRegister ? '회원가입' : '로그인'}</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>USERNAME</label>
+            <label>사용자명</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="Enter username"
+              placeholder="사용자명을 입력하세요"
               className="form-input"
             />
           </div>
@@ -61,19 +61,19 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           {isRegister && (
             <>
               <div className="form-group">
-                <label>EMAIL</label>
+                <label>이메일</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="Enter email"
+                  placeholder="이메일을 입력하세요"
                   className="form-input"
                 />
               </div>
 
               <div className="form-group">
-                <label>ROLE</label>
+                <label>역할</label>
                 <div className="role-selector">
                   <div 
                     className={`role-option ${role === 'USER' ? 'selected' : ''}`}
@@ -83,8 +83,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                       {role === 'USER' && <div className="role-radio-dot"></div>}
                     </div>
                     <div className="role-content">
-                      <div className="role-title">User</div>
-                      <div className="role-description">Limited access</div>
+                      <div className="role-title">사용자</div>
+                      <div className="role-description">제한된 접근 권한</div>
                     </div>
                   </div>
                   
@@ -96,8 +96,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                       {role === 'ADMIN' && <div className="role-radio-dot"></div>}
                     </div>
                     <div className="role-content">
-                      <div className="role-title">Admin</div>
-                      <div className="role-description">Full access to monitoring</div>
+                      <div className="role-title">관리자</div>
+                      <div className="role-description">모니터링 전체 접근 권한</div>
                     </div>
                   </div>
                 </div>
@@ -106,13 +106,13 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           )}
 
           <div className="form-group">
-            <label>PASSWORD</label>
+            <label>비밀번호</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="Enter password"
+              placeholder="비밀번호를 입력하세요"
               className="form-input"
             />
           </div>
@@ -120,7 +120,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           {error && <div className="error-message">{error}</div>}
 
           <button type="submit" disabled={loading} className="btn-primary">
-            {loading ? 'PROCESSING...' : isRegister ? 'REGISTER' : 'LOGIN'}
+            {loading ? '처리 중...' : isRegister ? '회원가입' : '로그인'}
           </button>
         </form>
 
@@ -135,8 +135,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
             className="btn-link"
           >
             {isRegister
-              ? 'Already have an account? Login'
-              : "Don't have an account? Register"}
+              ? '이미 계정이 있으신가요? 로그인'
+              : '계정이 없으신가요? 회원가입'}
           </button>
         </div>
       </div>

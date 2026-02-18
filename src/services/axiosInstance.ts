@@ -43,17 +43,17 @@ axiosInstance.interceptors.response.use(
       try {
         const userStr = localStorage.getItem('user');
         if (!userStr) {
-          throw new Error('No user data available');
+          throw new Error('사용자 데이터가 없습니다');
         }
 
         const user = JSON.parse(userStr);
         const refreshToken = user.refreshToken;
 
         if (!refreshToken) {
-          throw new Error('No refresh token available');
+          throw new Error('리프레시 토큰이 없습니다');
         }
 
-        console.log('Access token expired, refreshing...');
+        console.log('액세스 토큰 만료, 갱신 중...');
 
         // 리프레시 토큰으로 새 액세스 토큰 발급
         const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
@@ -74,13 +74,13 @@ axiosInstance.interceptors.response.use(
         // 원래 요청에 새 토큰 설정
         originalRequest.headers.Authorization = `Bearer ${newData.accessToken}`;
 
-        console.log('Token refreshed successfully');
+        console.log('토큰 갱신 성공');
 
         // 원래 요청 재시도
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         // 리프레시 실패 -> 로그아웃
-        console.error('Token refresh failed:', refreshError);
+        console.error('토큰 갱신 실패:', refreshError);
         localStorage.removeItem('user');
         window.location.href = '/';
         return Promise.reject(refreshError);

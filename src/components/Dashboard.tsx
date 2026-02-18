@@ -43,21 +43,43 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
     if (metrics.cpu) {
       setCpuData((prev) => {
-        const newData = [...prev, { ...metrics.cpu, timestamp: metrics.timestamp }];
+        // 데이터 정규화: 안전하게 문자열로 변환
+        const normalizedCpu = {
+          system: String(metrics.cpu.system ?? '0'),
+          process: String(metrics.cpu.process ?? '0'),
+          timestamp: metrics.timestamp
+        };
+        const newData = [...prev, normalizedCpu];
         return newData.slice(-maxDataPoints);
       });
     }
 
     if (metrics.memory) {
       setMemoryData((prev) => {
-        const newData = [...prev, { ...metrics.memory, timestamp: metrics.timestamp }];
+        // 데이터 정규화: 안전하게 숫자로 변환
+        const normalizedMemory = {
+          used: Number(metrics.memory.used) || 0,
+          max: Number(metrics.memory.max) || 0,
+          percentage: Number(metrics.memory.percentage) || 0,
+          heapUsed: Number(metrics.memory.heapUsed) || 0,
+          nonHeapUsed: Number(metrics.memory.nonHeapUsed) || 0,
+          timestamp: metrics.timestamp
+        };
+        const newData = [...prev, normalizedMemory];
         return newData.slice(-maxDataPoints);
       });
     }
 
     if (metrics.threads) {
       setThreadData((prev) => {
-        const newData = [...prev, { ...metrics.threads, timestamp: metrics.timestamp }];
+        // 데이터 정규화: 안전하게 숫자로 변환
+        const normalizedThread = {
+          live: Number(metrics.threads.live) || 0,
+          daemon: Number(metrics.threads.daemon) || 0,
+          peak: Number(metrics.threads.peak) || 0,
+          timestamp: metrics.timestamp
+        };
+        const newData = [...prev, normalizedThread];
         return newData.slice(-maxDataPoints);
       });
     }
