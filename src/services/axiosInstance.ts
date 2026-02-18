@@ -87,6 +87,40 @@ axiosInstance.interceptors.response.use(
       }
     }
 
+    // 에러 메시지를 한글로 변환
+    if (error.response) {
+      const status = error.response.status;
+      let koreanMessage = '';
+
+      switch (status) {
+        case 400:
+          koreanMessage = '잘못된 요청입니다';
+          break;
+        case 401:
+          koreanMessage = '인증이 필요합니다';
+          break;
+        case 403:
+          koreanMessage = '접근 권한이 없습니다';
+          break;
+        case 404:
+          koreanMessage = '요청한 리소스를 찾을 수 없습니다';
+          break;
+        case 500:
+          koreanMessage = '서버 오류가 발생했습니다';
+          break;
+        default:
+          koreanMessage = `요청 실패 (상태 코드: ${status})`;
+      }
+
+      // 서버에서 제공한 메시지가 있으면 사용, 없으면 기본 메시지 사용
+      const serverMessage = error.response.data?.message || error.response.data?.error;
+      error.message = serverMessage || koreanMessage;
+    } else if (error.request) {
+      error.message = '서버에 연결할 수 없습니다';
+    } else {
+      error.message = error.message || '알 수 없는 오류가 발생했습니다';
+    }
+
     return Promise.reject(error);
   }
 );

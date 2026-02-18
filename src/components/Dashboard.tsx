@@ -111,8 +111,22 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
   const fetchMetricsManually = async (type: 'cpu' | 'memory' | 'thread') => {
     setLoading(type);
+    
+    // 조회 시작 시 해당 데이터를 초기화 (0으로 리셋)
+    const timestamp = Date.now();
+    switch (type) {
+      case 'cpu':
+        setCpuData((prev) => [...prev, { system: '0', process: '0', timestamp }].slice(-maxDataPoints));
+        break;
+      case 'memory':
+        setMemoryData((prev) => [...prev, { used: 0, max: 0, percentage: 0, heapUsed: 0, nonHeapUsed: 0, timestamp }].slice(-maxDataPoints));
+        break;
+      case 'thread':
+        setThreadData((prev) => [...prev, { live: 0, daemon: 0, peak: 0, timestamp }].slice(-maxDataPoints));
+        break;
+    }
+    
     try {
-      const timestamp = Date.now();
       switch (type) {
         case 'cpu': {
           const cpuMetrics = await MonitoringService.getCpuMetrics();
@@ -120,7 +134,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           const normalizedCpu = {
             system: String(cpuMetrics.system ?? '0'),
             process: String(cpuMetrics.process ?? '0'),
-            timestamp
+            timestamp: Date.now()
           };
           setCpuData((prev) => [...prev, normalizedCpu].slice(-maxDataPoints));
           break;
@@ -134,7 +148,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
             percentage: Number(memoryMetrics.percentage) || 0,
             heapUsed: Number(memoryMetrics.heapUsed) || 0,
             nonHeapUsed: Number(memoryMetrics.nonHeapUsed) || 0,
-            timestamp
+            timestamp: Date.now()
           };
           setMemoryData((prev) => [...prev, normalizedMemory].slice(-maxDataPoints));
           break;
@@ -146,7 +160,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
             live: Number(threadMetrics.live) || 0,
             daemon: Number(threadMetrics.daemon) || 0,
             peak: Number(threadMetrics.peak) || 0,
-            timestamp
+            timestamp: Date.now()
           };
           setThreadData((prev) => [...prev, normalizedThread].slice(-maxDataPoints));
           break;
@@ -172,8 +186,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     // Detail 화면으로 전환 시 REST API 호출
     setLoading(view);
     try {
-      const timestamp = Date.now();
-      
       switch (view) {
         case 'cpu': {
           const cpuMetrics = await MonitoringService.getCpuMetrics();
@@ -181,7 +193,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
           const normalizedCpu = {
             system: String(cpuMetrics.system ?? '0'),
             process: String(cpuMetrics.process ?? '0'),
-            timestamp
+            timestamp: Date.now()
           };
           setCpuData((prev) => [...prev, normalizedCpu].slice(-maxDataPoints));
           break;
@@ -195,7 +207,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
             percentage: Number(memoryMetrics.percentage) || 0,
             heapUsed: Number(memoryMetrics.heapUsed) || 0,
             nonHeapUsed: Number(memoryMetrics.nonHeapUsed) || 0,
-            timestamp
+            timestamp: Date.now()
           };
           setMemoryData((prev) => [...prev, normalizedMemory].slice(-maxDataPoints));
           break;
@@ -207,7 +219,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
             live: Number(threadMetrics.live) || 0,
             daemon: Number(threadMetrics.daemon) || 0,
             peak: Number(threadMetrics.peak) || 0,
-            timestamp
+            timestamp: Date.now()
           };
           setThreadData((prev) => [...prev, normalizedThread].slice(-maxDataPoints));
           break;
